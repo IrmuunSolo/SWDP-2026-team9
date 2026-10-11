@@ -1,2 +1,2 @@
-MESSAGE = "CampusFind - Эзэмшигчтэй хувийн чатаар холбогдоно."
+MESSAGE = "CampusFind"
 print(MESSAGE)
