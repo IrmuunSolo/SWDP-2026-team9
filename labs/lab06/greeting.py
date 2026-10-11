@@ -1,2 +1,1 @@
-MESSAGE = "CampusFind - Эзэмшигчтэй хувийн чатаар холбогдоно."
-print(MESSAGE)
+MESSAGE = "CampusFind - Эзэмшигчтэй хувийн чатаар холбогдоно."print(MESSAGE)
