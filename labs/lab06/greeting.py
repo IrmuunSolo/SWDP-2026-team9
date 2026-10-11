@@ -1,0 +1,2 @@
+MESSAGE = "CampusFind"
+print(MESSAGE)
