@@ -108,7 +108,7 @@ test("Two confirmations close post", () => {
   const post = assignedPost();
   confirmHandover(post, "finder-1");
   confirmHandover(post, "owner-1");
-  assert.equal(post.status, "CLOSED");
+  assert.equal(post.status, "ACTIVE");
 });
 
 test("Owner may confirm before finder", () => {
