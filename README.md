@@ -80,7 +80,7 @@ npm.cmd run dev:web
 
 | Баримт | Агуулга |
 | --- | --- |
-| [Эндээс эхлэх](docs/START_HERE.md) | Унших дараалал, суурийн төлөв, шинэ бүтцэд шилжих |
+| [Эндээс эхлэх](docs/START_HERE.md) | Кодын бүтэц, унших дараалал, ажил эхлэх |
 | [Хөгжүүлэлтийн төлөвлөгөө](docs/DELIVERY_PLAN.md) | Хэн, ямар кодыг, хэзээ бичих; хамаарал ба review |
 | [API гэрээ ба эрх](docs/API.md) | Request/response, authentication, permission, алдаа |
 | [API замуудын хүснэгт](docs/api/routes.md) | Зам бүрийн owner, хугацаа, хэрэгжилтийн төлөв |
@@ -98,7 +98,7 @@ npm.cmd run check
 npm.cmd test
 ```
 
-`check` нь build, формат, API гэрээ, төлөвлөгөө болон давхаргын хамаарлыг шалгана. PostgreSQL integration тестийг тусдаа тестийн өгөгдлийн сантайгаар [TESTING.md](docs/TESTING.md)-ийн дагуу ажиллуулна. Өмнөх шалгалтын үр дүн, ажиллуулаагүй шалгалтуудыг [VERIFICATION.md](docs/VERIFICATION.md)-д тэмдэглэсэн.
+`check` нь build, формат, API гэрээ, төлөвлөгөө болон давхаргын хамаарлыг шалгана. PostgreSQL integration тестийг тусдаа тестийн өгөгдлийн сантайгаар [TESTING.md](docs/TESTING.md)-ийн дагуу ажиллуулна. Шалгалтын үр дүн, ажиллуулаагүй шалгалтуудыг [VERIFICATION.md](docs/VERIFICATION.md)-д тэмдэглэсэн.
 
 ## Лабораторийн тайлангууд
 

@@ -1,6 +1,6 @@
 # JWT шилжилт — Нармандах 8–9-р долоо хоног
 
-Зурагт төлөвлөгөө JWT заасан. Одоогийн ажилладаг суурь **opaque HttpOnly session cookie + DB fingerprint** ашигладаг; энэ бүтцийн өөрчлөлт JWT-г хэрэгжүүлсэн гэж үзэхгүй. JWT шилжилтийг auth owner Нармандах тусдаа PR-аар хийнэ.
+Нэвтрэлтийн суурь **opaque HttpOnly session cookie + DB fingerprint** ашигладаг. 8–9-р долоо хоногт auth owner Нармандах JWT нэвтрэлтийг тусдаа PR-аар хэрэгжүүлнэ.
 
 1. Backend-д баталгаатай JWT library, secret/issuer/audience/expiry тохиргоо нэмэх shared dependency/config PR гаргана. Secret нь зөвхөн root `.env`, production secret manager-д байна.
 2. JWT-г HttpOnly/SameSite cookie-оор дамжуулж, frontend-ийн JSON response ба `credentials: include` гэрээг хэвээр хадгалж болно. localStorage-д token хадгалахгүй. Cookie name өөрчлөх бол contract-оо эхэлж шинэчилнэ.

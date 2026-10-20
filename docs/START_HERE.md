@@ -1,6 +1,6 @@
 # Багийн хөгжүүлэлтийг эндээс эхлэх
 
-Багийн баталсан зурагт төлөвлөгөөний дагуу кодыг дөрвөн үндсэн хүрээнд тусгаарлав.
+CampusFind нь frontend, backend, database, DevOps гэсэн дөрвөн үндсэн хэсэгтэй. Гишүүн бүр өөрийн хариуцах давхаргад ажиллаж, нэгдсэн API гэрээгээр холбогдоно.
 
 ```text
 frontend/              Ирмүүн — React UI, API client
@@ -24,16 +24,18 @@ docs/                  Нэгдсэн заавар
 
 ## Одоогийн хэрэгжүүлэлт
 
-React auth/posts form, NestJS register/verify/login/logout/me, session cookie, post create/read, pagination, PostgreSQL schema/migration, health, Zod validation, API гэрээ ба CI бэлэн. Search/filter, chat, handover, upload, notification, moderation нь planned seam/501 хэвээр; кодын бүтэц солигдсон нь эдгээр функц дууссан гэсэн үг биш.
+React auth/posts form, NestJS register/verify/login/logout/me, session cookie, post create/read, pagination, PostgreSQL schema/migration, health, Zod validation, API гэрээ ба CI бэлэн. Search/filter, chat, handover, upload, notification, moderation нь төлөвлөсөн ажил бөгөөд хэрэгжээгүй API замууд 501 буцаана.
 
-Auth одоо opaque session ашиглаж байна. Зурагт заасан JWT нь Нармандахын 8–9-р долоо хоногийн [шилжилтийн PR](AUTH_JWT_PLAN.md). Одоо байгаа хамгаалалтыг эвдэж JWT болсон мэт тэмдэглээгүй.
+Нэвтрэлт opaque session ашиглана. JWT хэрэгжүүлэх ажил Нармандахын 8–9-р долоо хоногийн [төлөвлөгөөнд](AUTH_JWT_PLAN.md) багтана.
 
-## Хуучин бүтцээс шинэчлэх
+## Ажил эхлэх
 
-`apps/web` → `frontend`, `apps/api` → `backend`, Prisma → `database/prisma`, compose → `devops/compose.yaml`. npm workspace нэр @campusfind/web, @campusfind/api хэвээр тул dev команд өөрчлөгдөөгүй.
+1. Repo-г татаж, [SETUP.md](SETUP.md)-ийн дагуу dependency, PostgreSQL, Mailpit-аа бэлдэнэ.
+2. Root `.env.example`-аас `.env` үүсгэж тохируулна. Backend болон database CLI энэ файлыг уншина. Frontend-д нууц тохиргоо дамжуулахгүй.
+3. [Хөгжүүлэлтийн төлөвлөгөө](DELIVERY_PLAN.md)-өөс өөрийн task, owner, dependency-г шалгана.
+4. `main`-аас ажлын branch үүсгэж, өөрийн давхаргад код бичнэ. [PR заавар](CONTRIBUTING.md)-ыг дагана.
+5. Шалгалтуудаа ажиллуулж, PR нээгээд review авна.
 
-Хуучин dev серверүүдээ зогсоож root дээр `npm ci`, `npm run db:generate`, `npm run build` ажиллуулаад dev серверээ дахин асаа. Өмнө backend/.env эсвэл apps/api/.env үүсгэсэн бол утгаа root `.env` рүү **өөрөө тулгаж** шилжүүл; байгаа root `.env`-ийг дарж бичихгүй. Шинэ суулгалт `.env.example`-аас эхэлнэ.
+Бүх npm командыг repo root дээр ажиллуулна. Workspace нэр нь frontend-д `@campusfind/web`, backend-д `@campusfind/api`, database-д `@campusfind/database` байна.
 
-Root `.env`-ийг backend startup, database CLI хоёул уншина; frontend түүнийг import хийхгүй. VITE\_ prefix-ээр нууц өгөгдөл дамжуулахгүй. Хуучин SQL migration-ийг дахин үүсгэх, DB volume устгах шаардлагагүй.
-
-Идэвхтэй machine-readable эх: [delivery-plan.json](planning/delivery-plan.json). Лаб 3 болон өмнөх 17/18/18/17 SP санал нь [baseline-sprints.json](planning/baseline-sprints.json)-д historical-reference. Conflict-ийн эрсдэлийг давхаргын эзэмшил, жижиг shared PR, review дарааллаар бууруулна.
+Ажил оноох эх нь [delivery-plan.json](planning/delivery-plan.json). Давхаргын эзэмшил, жижиг PR, shared contract-ийн review дарааллыг мөрдөнө.

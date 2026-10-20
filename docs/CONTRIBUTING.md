@@ -2,22 +2,6 @@
 
 GitHub дээр **Pull Request (PR)** гэж нэрлэдэг, GitLab-ийн ижил ойлголт нь **Merge Request (MR)**. Энэ repo GitHub ашигладаг тул PR нээнэ. Нэг story/task → нэг богино хугацааны branch → нэг review хийсэн PR. Main дээр шууд код бичиж push хийхгүй.
 
-## Суурийг анх main-д оруулах
-
-Энэ код одоо локал working tree-д байна. Эхлээд гурван гишүүн суурийн contract, file ownership-ийг уншаад bootstrap PR-ийг review хийнэ. Доорхийг repo root дээр ажиллуулна:
-
-```powershell
-git status
-git switch -c chore/team-foundation
-git add README.md AGENTS.md package.json package-lock.json frontend backend database devops packages scripts docs .github .env.example .gitignore .gitattributes .editorconfig .node-version .npmrc .prettierrc.json .prettierignore
-git diff --cached --stat
-git diff --cached --check
-git commit -m "chore: establish CampusFind team foundation"
-git push -u origin chore/team-foundation
-```
-
-GitHub → Pull requests → New pull request → base `main`, compare `chore/team-foundation`. Нармандах эсвэл Амарболдоор review хийлгэж, CI ногоон болсны дараа Squash and merge. Шинэ package/schema/contract бүх feature branch-д хэрэгтэй тул энэ PR-ийг эхэлж нэгтгэнэ. Өөрийн нэмэлт локал өөрчлөлт байвал `git add`-ын жагсаалтыг review хийж зөвхөн суурьтай холбоотой файлыг stage хийнэ.
-
 ## Өдөр тутмын жишээ
 
 Ирмүүн US-09 хайлт хийх жишээ; бусад хүн story/нэрийг солино:
