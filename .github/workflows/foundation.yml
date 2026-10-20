@@ -1,0 +1,47 @@
+name: CampusFind Foundation
+on: [push, pull_request]
+permissions:
+  contents: read
+concurrency:
+  group: foundation-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  foundation:
+    name: Foundation checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: campusfind
+          POSTGRES_PASSWORD: ci_only_password
+          POSTGRES_DB: campusfind_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U campusfind -d campusfind_test"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://campusfind:ci_only_password@localhost:5432/campusfind_test?schema=public
+      TEST_DATABASE_URL: postgresql://campusfind:ci_only_password@localhost:5432/campusfind_test?schema=public
+      UNIVERSITY_EMAIL_DOMAINS: example.edu
+      WEB_ORIGIN: http://localhost:5173
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Install
+        run: npm ci
+      - name: Generate Prisma client
+        run: npm run db:generate
+      - name: Build and static checks
+        run: npm run check
+      - name: Unit and HTTP tests including Lab 7
+        run: npm test
+      - name: Apply migrations to isolated test database
+        run: npm run db:deploy
+      - name: PostgreSQL integration
+        run: npm run test:integration

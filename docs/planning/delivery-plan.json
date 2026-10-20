@@ -1,0 +1,224 @@
+{
+  "status": "active",
+  "source": "Багийн баталсан 8–15-р долоо хоногийн зурагт төлөвлөгөө",
+  "members": { "irmuun": "Л.Ирмүүн", "narmandakh": "Г.Нармандах", "amarbold": "Э.Амарболд" },
+  "layers": {
+    "frontend": "irmuun",
+    "backend": "narmandakh",
+    "database": "amarbold",
+    "devops": "amarbold"
+  },
+  "weekBlocks": [
+    {
+      "id": "8-9",
+      "goal": "Суурь + Auth",
+      "tasks": {
+        "irmuun": [
+          "React төсөл, үндсэн layout",
+          "Бүртгүүлэх, нэвтрэх хуудас",
+          "US-01/02 шалгуур тодруулах"
+        ],
+        "narmandakh": [
+          "NestJS суурь, Auth модуль",
+          "И-мэйл баталгаажуулалт, JWT шилжилт",
+          "5 буруу оролдлого, 10 минутын түгжээ"
+        ],
+        "amarbold": ["PostgreSQL users/posts schema", "Migration, local seed", "CI-д backend тест"]
+      }
+    },
+    {
+      "id": "10-11",
+      "goal": "Зар + Хайлт",
+      "tasks": {
+        "irmuun": ["LOST/FOUND форм", "Зураг upload UI", "Хайлт, шүүлтүүрийн хуудас"],
+        "narmandakh": [
+          "Post API US-04/07",
+          "Нууц асуулт + hash US-08",
+          "Оюутны кодын privacy US-03",
+          "Upload болон query adapter-ийг data layer-тэй холбох"
+        ],
+        "amarbold": [
+          "Зураг хадгалалт US-05",
+          "Full-text query + index US-09",
+          "Шүүлтүүрийн query US-10"
+        ]
+      }
+    },
+    {
+      "id": "12-13",
+      "goal": "Claim + Moderation",
+      "tasks": {
+        "irmuun": [
+          "Чат, сэтгэгдлийн UI",
+          "Шилжүүлэг баталгаажуулах дэлгэц",
+          "Зар засах/хаах US-06"
+        ],
+        "narmandakh": [
+          "Chat + Handover US-12/13",
+          "Нууц асуулт шалгах",
+          "Notification + SMTP US-14",
+          "Post edit/close API"
+        ],
+        "amarbold": ["Comments API US-11", "Admin/block API US-15", "Integration тест"]
+      }
+    },
+    {
+      "id": "14-15",
+      "goal": "QA + Demo",
+      "tasks": {
+        "irmuun": ["Responsive шалгалт, UI засвар", "Demo сценарий, PO acceptance"],
+        "narmandakh": ["API алдаа засвар", "Sprint Review, Retro", "Эцсийн тайлан"],
+        "amarbold": ["Deploy", "E2E тест", "README, ажиллуулах заавар"]
+      }
+    }
+  ],
+  "stories": [
+    {
+      "id": "US-01",
+      "points": 5,
+      "weekBlock": "8-9",
+      "frontend": "irmuun",
+      "api": "narmandakh",
+      "data": "amarbold",
+      "dependsOn": []
+    },
+    {
+      "id": "US-02",
+      "points": 2,
+      "weekBlock": "8-9",
+      "frontend": "irmuun",
+      "api": "narmandakh",
+      "data": "amarbold",
+      "dependsOn": ["US-01"]
+    },
+    {
+      "id": "US-03",
+      "points": 3,
+      "weekBlock": "10-11",
+      "frontend": "irmuun",
+      "api": "narmandakh",
+      "data": "amarbold",
+      "dependsOn": ["US-02"]
+    },
+    {
+      "id": "US-04",
+      "points": 5,
+      "weekBlock": "10-11",
+      "frontend": "irmuun",
+      "api": "narmandakh",
+      "data": "amarbold",
+      "dependsOn": ["US-02"]
+    },
+    {
+      "id": "US-05",
+      "points": 3,
+      "weekBlock": "10-11",
+      "frontend": "irmuun",
+      "api": "narmandakh",
+      "data": "amarbold",
+      "dependsOn": ["US-04"]
+    },
+    {
+      "id": "US-06",
+      "points": 3,
+      "weekBlock": "12-13",
+      "frontend": "irmuun",
+      "api": "narmandakh",
+      "data": "amarbold",
+      "dependsOn": ["US-04", "US-07"]
+    },
+    {
+      "id": "US-07",
+      "points": 5,
+      "weekBlock": "10-11",
+      "frontend": "irmuun",
+      "api": "narmandakh",
+      "data": "amarbold",
+      "dependsOn": ["US-02"]
+    },
+    {
+      "id": "US-08",
+      "points": 5,
+      "weekBlock": "10-11",
+      "frontend": "irmuun",
+      "api": "narmandakh",
+      "data": "amarbold",
+      "dependsOn": ["US-07"]
+    },
+    {
+      "id": "US-09",
+      "points": 5,
+      "weekBlock": "10-11",
+      "frontend": "irmuun",
+      "api": "narmandakh",
+      "data": "amarbold",
+      "dependsOn": ["US-04", "US-07"]
+    },
+    {
+      "id": "US-10",
+      "points": 5,
+      "weekBlock": "10-11",
+      "frontend": "irmuun",
+      "api": "narmandakh",
+      "data": "amarbold",
+      "dependsOn": ["US-04", "US-07"]
+    },
+    {
+      "id": "US-11",
+      "points": 5,
+      "weekBlock": "12-13",
+      "frontend": "irmuun",
+      "api": "amarbold",
+      "data": "amarbold",
+      "dependsOn": ["US-04", "US-07"]
+    },
+    {
+      "id": "US-12",
+      "points": 8,
+      "weekBlock": "12-13",
+      "frontend": "irmuun",
+      "api": "narmandakh",
+      "data": "amarbold",
+      "dependsOn": ["US-02", "US-07"]
+    },
+    {
+      "id": "US-13",
+      "points": 5,
+      "weekBlock": "12-13",
+      "frontend": "irmuun",
+      "api": "narmandakh",
+      "data": "amarbold",
+      "dependsOn": ["US-08", "US-12"]
+    },
+    {
+      "id": "US-14",
+      "points": 8,
+      "weekBlock": "12-13",
+      "frontend": "irmuun",
+      "api": "narmandakh",
+      "data": "amarbold",
+      "dependsOn": ["US-04", "US-07", "US-12"]
+    },
+    {
+      "id": "US-15",
+      "points": 3,
+      "weekBlock": "12-13",
+      "frontend": "irmuun",
+      "api": "amarbold",
+      "data": "amarbold",
+      "dependsOn": ["US-02", "US-04", "US-07"]
+    }
+  ],
+  "phasedWork": [
+    {
+      "story": "US-03",
+      "weekBlock": "12-13",
+      "note": "Public mask-ийг 10–11-д; full code-ийг chat participant guard бэлэн болсон үед л нээх"
+    },
+    {
+      "story": "US-08",
+      "weekBlock": "12-13",
+      "note": "Secret хадгалалтыг 10–11-д; private chat дахь асуулт/хариулт/claim verification-ийг 12–13-д"
+    }
+  ]
+}
