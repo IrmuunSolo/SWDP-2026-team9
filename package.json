@@ -1,0 +1,45 @@
+{
+  "name": "campusfind",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend",
+    "database",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=24 <25",
+    "npm": ">=11 <12"
+  },
+  "scripts": {
+    "dev:api": "npm run dev -w @campusfind/api",
+    "dev:web": "npm run dev -w @campusfind/web",
+    "build": "npm run build -w @campusfind/contracts && npm run build -w @campusfind/database && npm run build -w @campusfind/api && npm run build -w @campusfind/web",
+    "check": "npm run build && npm run format:check && npm run contract:check && npm run check:plan && npm run check:layout",
+    "test": "npm run build -w @campusfind/contracts && npm run build -w @campusfind/database && npm test -w @campusfind/api && npm --prefix labs/lab07 test",
+    "test:integration": "npm run build -w @campusfind/contracts && npm run build -w @campusfind/database && npm run test:integration -w @campusfind/api",
+    "contract:generate": "npm run build -w @campusfind/contracts && node scripts/generate-contract.mjs",
+    "contract:check": "node scripts/generate-contract.mjs --check",
+    "check:plan": "node scripts/check-plan.mjs",
+    "check:layout": "node scripts/check-layout.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "db:generate": "npm run db:generate -w @campusfind/database",
+    "db:migrate": "npm run db:migrate -w @campusfind/database --",
+    "db:deploy": "npm run db:deploy -w @campusfind/database",
+    "db:studio": "npm run db:studio -w @campusfind/database",
+    "infra:up": "docker compose -p swdp-2026-team9 -f devops/compose.yaml up -d --wait",
+    "infra:down": "docker compose -p swdp-2026-team9 -f devops/compose.yaml down",
+    "db:validate": "npm run db:validate -w @campusfind/database",
+    "db:seed": "npm run db:seed -w @campusfind/database"
+  },
+  "overrides": {
+    "deepmerge-ts": "^8.0.0"
+  },
+  "devDependencies": {
+    "prettier": "3.6.2",
+    "typescript": "5.9.3",
+    "@types/node": "^24.0.0"
+  }
+}

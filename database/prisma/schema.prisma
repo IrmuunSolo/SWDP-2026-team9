@@ -1,0 +1,186 @@
+generator client {
+  provider = "prisma-client-js"
+}
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+enum Role {
+  MEMBER
+  ADMIN
+}
+enum PostType {
+  LOST
+  FOUND
+}
+enum PostStatus {
+  ACTIVE
+  CLOSED
+  HIDDEN
+}
+enum HandoverMethod {
+  MEET
+  GUARD
+}
+model User {
+  id               String   @id @default(uuid()) @db.Uuid
+  email            String   @unique
+  studentCode      String   @unique
+  displayName      String
+  passwordHash     String
+  role             Role     @default(MEMBER)
+  emailVerifiedAt  DateTime?
+  blockedAt        DateTime?
+  failedAttempts   Int      @default(0)
+  lockedUntil      DateTime?
+  inAppEnabled     Boolean  @default(true)
+  emailEnabled     Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  sessions         Session[]
+  verificationTokens VerificationToken[]
+  posts            Post[]
+  claimantChats    Chat[]   @relation("Claimant")
+  messages         Message[]
+  comments         Comment[]
+  ownerHandovers   Handover[] @relation("Owner")
+  finderHandovers  Handover[] @relation("Finder")
+  notifications    Notification[]
+  reports          Report[]
+  auditLogs        AuditLog[]
+}
+model Session {
+  tokenHash String @id
+  userId    String @db.Uuid
+  user      User @relation(fields:[userId],references:[id],onDelete:Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  @@index([userId])
+  @@index([expiresAt])
+}
+model VerificationToken {
+  tokenHash String @id
+  userId    String @db.Uuid
+  user      User @relation(fields:[userId],references:[id],onDelete:Cascade)
+  expiresAt DateTime
+  usedAt    DateTime?
+}
+model Post {
+  id             String @id @default(uuid()) @db.Uuid
+  authorId       String @db.Uuid
+  author         User @relation(fields:[authorId],references:[id])
+  type           PostType
+  title          String
+  description    String
+  category       String
+  location       String
+  occurredOn     DateTime @db.Date
+  status         PostStatus @default(ACTIVE)
+  handoverMethod HandoverMethod?
+  guardLocation  String?
+  secretQuestion String?
+  secretAnswerHash String?
+  closedReason   String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  photos         Photo[]
+  chats          Chat[]
+  handover       Handover?
+  comments       Comment[]
+  reports        Report[]
+  @@index([status,createdAt,id])
+  @@index([category,location,type])
+}
+model Photo {
+  id       String @id @default(uuid()) @db.Uuid
+  postId   String @db.Uuid
+  post     Post @relation(fields:[postId],references:[id],onDelete:Cascade)
+  storageKey String @unique
+  mimeType String
+  bytes    Int
+}
+model Chat {
+  id          String @id @default(uuid()) @db.Uuid
+  postId      String @db.Uuid
+  post        Post @relation(fields:[postId],references:[id])
+  claimantId  String @db.Uuid
+  claimant    User @relation("Claimant",fields:[claimantId],references:[id])
+  claimVerifiedAt DateTime?
+  claimAttempts Int @default(0)
+  claimLockedUntil DateTime?
+  createdAt   DateTime @default(now())
+  messages    Message[]
+  @@unique([postId,claimantId])
+}
+model Message {
+  id        String @id @default(uuid()) @db.Uuid
+  chatId    String @db.Uuid
+  chat      Chat @relation(fields:[chatId],references:[id])
+  senderId  String @db.Uuid
+  sender    User @relation(fields:[senderId],references:[id])
+  body      String
+  createdAt DateTime @default(now())
+  @@index([chatId,createdAt,id])
+}
+model Handover {
+  id        String @id @default(uuid()) @db.Uuid
+  postId    String @unique @db.Uuid
+  post      Post @relation(fields:[postId],references:[id])
+  ownerId   String @db.Uuid
+  owner     User @relation("Owner",fields:[ownerId],references:[id])
+  finderId  String @db.Uuid
+  finder    User @relation("Finder",fields:[finderId],references:[id])
+  ownerConfirmed Boolean @default(false)
+  finderConfirmed Boolean @default(false)
+  completedAt DateTime?
+}
+model Comment {
+  id        String @id @default(uuid()) @db.Uuid
+  postId    String @db.Uuid
+  post      Post @relation(fields:[postId],references:[id])
+  authorId  String @db.Uuid
+  author    User @relation(fields:[authorId],references:[id])
+  body      String
+  createdAt DateTime @default(now())
+  @@index([postId,createdAt,id])
+}
+model Notification {
+  id        String @id @default(uuid()) @db.Uuid
+  userId    String @db.Uuid
+  user      User @relation(fields:[userId],references:[id])
+  type      String
+  postId    String? @db.Uuid
+  readAt    DateTime?
+  createdAt DateTime @default(now())
+  @@index([userId,createdAt,id])
+}
+model Report {
+  id         String @id @default(uuid()) @db.Uuid
+  postId     String @db.Uuid
+  post       Post @relation(fields:[postId],references:[id])
+  reporterId String @db.Uuid
+  reporter   User @relation(fields:[reporterId],references:[id])
+  reason     String
+  status     String @default("OPEN")
+  resolution String?
+  createdAt  DateTime @default(now())
+  @@index([status,createdAt])
+}
+model AuditLog {
+  id        String @id @default(uuid()) @db.Uuid
+  actorId   String @db.Uuid
+  actor     User @relation(fields:[actorId],references:[id])
+  action    String
+  targetId  String @db.Uuid
+  reason    String
+  createdAt DateTime @default(now())
+}
+model OutboxEvent {
+  id        String @id @default(uuid()) @db.Uuid
+  type      String
+  payload   Json
+  processedAt DateTime?
+  attempts  Int @default(0)
+  nextAttemptAt DateTime @default(now())
+  createdAt DateTime @default(now())
+  @@index([processedAt,nextAttemptAt])
+}

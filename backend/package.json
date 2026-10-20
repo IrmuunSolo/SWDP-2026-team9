@@ -1,0 +1,35 @@
+{
+  "name": "@campusfind/api",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "tsx watch src/main.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/src/main.js",
+    "test": "npm run build && node --test dist/test/unit/*.test.js",
+    "test:integration": "npm run build && node --test dist/test/integration/*.test.js",
+    "db:admin": "tsx scripts/promote-admin.ts"
+  },
+  "dependencies": {
+    "@campusfind/contracts": "0.1.0",
+    "@nestjs/common": "11.2.7",
+    "@nestjs/core": "11.2.7",
+    "@nestjs/platform-express": "11.2.7",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.2.3",
+    "helmet": "^8.1.0",
+    "nodemailer": "^10.1.7",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2",
+    "swagger-ui-express": "^5.0.1",
+    "@campusfind/database": "0.1.0"
+  },
+  "devDependencies": {
+    "@nestjs/testing": "11.2.7",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/express": "^5.0.3",
+    "@types/nodemailer": "^7.0.3",
+    "@types/swagger-ui-express": "^4.1.8",
+    "tsx": "^4.20.6"
+  }
+}

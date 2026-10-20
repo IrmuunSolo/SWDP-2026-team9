@@ -1,0 +1,27 @@
+name: CampusFind task
+description: User Story-ийн хэрэгжүүлэх жижиг ажил
+title: '[US-XX] '
+body:
+  - type: input
+    id: parent
+    attributes:
+      label: Эх User Story issue
+      placeholder: '#1'
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Owner, reviewer, Week Block, Layer, кодын хүрээ
+    validations:
+      required: true
+  - type: textarea
+    id: api
+    attributes:
+      label: API operationId ба dependency PR
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria ба тест
+    validations:
+      required: true

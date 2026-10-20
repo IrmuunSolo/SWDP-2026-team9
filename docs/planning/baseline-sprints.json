@@ -1,0 +1,126 @@
+{
+  "capacityAssumption": 18,
+  "members": {
+    "irmuun": "Л.Ирмүүн",
+    "narmandakh": "Г.Нармандах",
+    "amarbold": "Э.Амарболд"
+  },
+  "sprints": [
+    {
+      "number": 1,
+      "goal": "Баталгаажсан хэрэглэгч нэвтрэн гээгдсэн, олдсон зар үүсгэж харах",
+      "stories": [
+        {
+          "id": "US-01",
+          "points": 5,
+          "owner": "irmuun",
+          "dependsOn": []
+        },
+        {
+          "id": "US-02",
+          "points": 2,
+          "owner": "irmuun",
+          "dependsOn": ["US-01"]
+        },
+        {
+          "id": "US-04",
+          "points": 5,
+          "owner": "narmandakh",
+          "dependsOn": ["US-02"]
+        },
+        {
+          "id": "US-07",
+          "points": 5,
+          "owner": "amarbold",
+          "dependsOn": ["US-02"]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "goal": "Зар хайж, шүүж, олсон хүнтэй зөвхөн хоёр талын чат нээх",
+      "stories": [
+        {
+          "id": "US-09",
+          "points": 5,
+          "owner": "irmuun",
+          "dependsOn": ["US-04", "US-07"]
+        },
+        {
+          "id": "US-10",
+          "points": 5,
+          "owner": "narmandakh",
+          "dependsOn": ["US-04", "US-07"]
+        },
+        {
+          "id": "US-12",
+          "points": 8,
+          "owner": "amarbold",
+          "dependsOn": ["US-02", "US-07"]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "goal": "Эзэмшлийг нотлон, хоёр талын баталгаагаар буцаалт хийж мэдэгдэл илгээх",
+      "stories": [
+        {
+          "id": "US-08",
+          "points": 5,
+          "owner": "narmandakh",
+          "dependsOn": ["US-07", "US-12"]
+        },
+        {
+          "id": "US-13",
+          "points": 5,
+          "owner": "amarbold",
+          "dependsOn": ["US-08", "US-12"]
+        },
+        {
+          "id": "US-14",
+          "points": 8,
+          "owner": "irmuun",
+          "dependsOn": ["US-04", "US-07", "US-12"]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "goal": "Зураг, зарын удирдлага, хувийн мэдээллийн дүрэм, сэтгэгдэл ба модерацыг дуусгах",
+      "stories": [
+        {
+          "id": "US-03",
+          "points": 3,
+          "owner": "irmuun",
+          "dependsOn": ["US-12"]
+        },
+        {
+          "id": "US-05",
+          "points": 3,
+          "owner": "narmandakh",
+          "dependsOn": ["US-04"]
+        },
+        {
+          "id": "US-06",
+          "points": 3,
+          "owner": "narmandakh",
+          "dependsOn": ["US-04", "US-07", "US-13"]
+        },
+        {
+          "id": "US-11",
+          "points": 5,
+          "owner": "amarbold",
+          "dependsOn": ["US-04", "US-07"]
+        },
+        {
+          "id": "US-15",
+          "points": 3,
+          "owner": "irmuun",
+          "dependsOn": ["US-02", "US-04", "US-07"]
+        }
+      ]
+    }
+  ],
+  "status": "historical-reference",
+  "supersededBy": "delivery-plan.json"
+}

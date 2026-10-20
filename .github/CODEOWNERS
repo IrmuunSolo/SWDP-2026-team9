@@ -1,0 +1,6 @@
+# Layer ownership: docs/DELIVERY_PLAN.md
+/frontend/ @IrmuunSolo
+/packages/contracts/ @IrmuunSolo
+# Backend (except comments/admin): Narmandakh; verify GitHub write permission before adding login.
+# Database/devops/.github and backend comments/admin: Amarbold; exact login not supplied.
+# Shared contract requires producer + consumer review, not only this automation hint.

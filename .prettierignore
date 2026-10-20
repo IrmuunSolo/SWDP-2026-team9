@@ -1,0 +1,11 @@
+node_modules
+dist
+coverage
+package-lock.json
+docs/api/openapi.json
+docs/api/routes.md
+docx
+labs
+README.md
+.github/workflows/ci.yml
+database/prisma/migrations
