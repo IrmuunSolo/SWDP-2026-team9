@@ -11,7 +11,7 @@
 | Лаб 6: feature branch, тойрог review, conflict/revert | PR workflow, LF, shared-file owner, protected main заавар             |
 | Лаб 7: Node 24, 15 тест, Actions                      | `labs/lab07` хэвээр; үндсэн аппын CI job нэмэгдсэн                    |
 
-Тайланг эх баримт болгон ашигласан; Лаб 4-ийн симуляцийг жинхэнэ хөгжүүлэлт, Лаб 7-ын in-memory модулийг DB-тэй production service гэж үзээгүй. Repo-ийн хуучин README дэх “Returned” нь хэрэглэгчид үзүүлэх ойлголт; canonical database/API status нь Лаб 5/7-тай ижил `CLOSED`.
+Тайланг эх баримт болгон ашигласан; Лаб 4-ийн симуляцийг жинхэнэ хөгжүүлэлт, Лаб 7-ын in-memory модулийг DB-тэй production service гэж үзээгүй. Хүлээлгэн өгч дууссан зарын database/API төлөв нь `CLOSED`; хүлээлгэн өгсөн шалтгаан болон хугацааг холбогдох талбарт хадгална.
 
 ## Давхарга ба хавтас
 

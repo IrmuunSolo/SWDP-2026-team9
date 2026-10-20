@@ -1,6 +1,6 @@
 # 8–15-р долоо хоногийн хөгжүүлэлтийн төлөвлөгөө
 
-Идэвхтэй эх нь багийн зурагт хуваарь. Ирмүүн frontend ба PO acceptance, Нармандах үндсэн backend ба SM, Амарболд database/DevOps, мөн comments/admin API-г хариуцна.
+Хөгжүүлэлтийг 8–15-р долоо хоногт дараах хуваариар гүйцэтгэнэ. Ирмүүн frontend ба PO acceptance, Нармандах үндсэн backend ба SM, Амарболд database/DevOps, мөн comments/admin API-г хариуцна.
 
 | Хугацаа                  | Л.Ирмүүн — Frontend React                              | Г.Нармандах — Backend NestJS                                           | Э.Амарболд — Database, DevOps                                    |
 | ------------------------ | ------------------------------------------------------ | ---------------------------------------------------------------------- | ---------------------------------------------------------------- |
@@ -48,8 +48,8 @@ US-03-ын public mask 10–11-д; full code disclosure нь 12–13-д chat par
 
 Issue бүрд frontend/backend/database checklist, owner, branch/PR холбоно. Өөрийн давхарга дууссан нь бүх story Done гэсэн үг биш: холбогдсон UI/API/DB урсгал, тест ба acceptance хамт дуусна.
 
-## Түүхэн төлөвлөгөө
+## Төлөвлөлт ба хүчин чадал
 
-Лаб 3-ын Sprint 1=17 SP, нийт backlog=70 SP гэсэн баримт хэвээр. Өмнөх 17/18/18/17 SP хуваарь [baseline-sprints.json](planning/baseline-sprints.json)-д historical-reference болж хадгалагдсан; одоо ажил оноох эх биш.
+Product Backlog нь 15 User Story, нийт 70 SP-тэй. Энэ хуваарь нь хугацаа болон давхаргаар ажлыг хуваарилна. Planning бүрд үлдсэн бодит ажил, багийн velocity, integration ачааллыг шалгаж багтаамжаа тохируулна.
 
-Зурагт хуваарь нь хугацаа ба давхаргын төлөвлөгөө. Хуучин 18 SP таамагт автоматаар багтсан гэж үзэхгүй; Planning-д үлдсэн бодит ажил, velocity, integration ачааллыг шалгана. Идэвхтэй эх [delivery-plan.json](planning/delivery-plan.json); `npm run check:plan` нь owner/story/dependency/route metadata-г тулгана.
+Ажил оноох эх нь [delivery-plan.json](planning/delivery-plan.json). `npm run check:plan` нь owner/story/dependency/route metadata-г тулгана. Лабораторийн тайлангууд [labs/docx/](../labs/docx/) хавтаст байна.

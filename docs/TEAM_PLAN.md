@@ -4,4 +4,4 @@
 
 Ирмүүн — frontend. Нармандах — үндсэн backend. Амарболд — database/DevOps, comments/admin API.
 
-Хуучин feature-based owner/Sprint санал түүхэн лавлагаанд шилжсэн. Ажил оноох эх нь `planning/delivery-plan.json`.
+Ажил оноох эх нь [delivery-plan.json](planning/delivery-plan.json). API зам бүрийн хариуцагч, хугацааг [API хүснэгт](api/routes.md)-ээс харна.
