@@ -7,25 +7,35 @@ import { configureApp } from '../../src/app';
 import { DbService } from '../../src/db/db.module';
 import { MailService } from '../../src/modules/auth/mail.service';
 import { hashToken } from '../../src/common/security';
-const token = 'a'.repeat(64),
-  user = {
-    id: '11111111-1111-4111-8111-111111111111',
-    displayName: 'Тест',
-    email: 'test@example.edu',
-    studentCode: 'B232270021',
-    role: 'MEMBER',
-    emailVerifiedAt: new Date(),
-    blockedAt: null,
-    passwordHash: 'not-public',
-  };
+import { createAccessToken } from '../../src/common/jwt';
+
+const user = {
+  id: '11111111-1111-4111-8111-111111111111',
+  displayName: 'Тест',
+  email: 'test@example.edu',
+  studentCode: 'B232270021',
+  role: 'MEMBER',
+  emailVerifiedAt: new Date(),
+  blockedAt: null,
+  passwordHash: 'not-public',
+};
 test('HTTP foundation: routes, CSRF, privacy, auth, explicit planned errors', async (t) => {
   process.env.DATABASE_URL = 'postgresql://unused';
   process.env.UNIVERSITY_EMAIL_DOMAINS = 'example.edu';
+  process.env.JWT_SECRET ??= 'unit-test-jwt-secret-at-least-32-bytes-long';
+
+  const jti = 'a'.repeat(64);
+  const token = await createAccessToken(user.id, jti, new Date(Date.now() + 60_000));
   const db = {
     session: {
       findUnique: async ({ where }: any) =>
-        where.tokenHash === hashToken(token)
-          ? { user, tokenHash: where.tokenHash, expiresAt: new Date(Date.now() + 60000) }
+        where.tokenHash === hashToken(jti)
+          ? {
+              user,
+              userId: user.id,
+              tokenHash: where.tokenHash,
+              expiresAt: new Date(Date.now() + 60000),
+            }
           : null,
     },
     $queryRaw: async () => [1],

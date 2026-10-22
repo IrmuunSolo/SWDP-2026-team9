@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { DbService } from '../../db/db.module';
 import { MailService } from './mail.service';
 import { fail } from '../../common/http';
+import { createAccessToken } from '../../common/jwt';
 import {
   checkPassword,
   hashPassword,
@@ -128,15 +129,24 @@ export class AuthService {
     }
     if (user.blockedAt || !user.emailVerifiedAt)
       fail(403, 'ACCOUNT_UNAVAILABLE', 'И-мэйл баталгаажсан, идэвхтэй бүртгэл шаардлагатай');
-    const token = newToken(),
-      expiresAt = new Date(Date.now() + 7 * 86400000);
+    const jti = newToken();
+    const expiresAt = new Date(Date.now() + 7 * 86400000);
+    const token = await createAccessToken(user.id, jti, expiresAt);
+
     await this.db.$transaction([
       this.db.user.update({
         where: { id: user.id },
         data: { failedAttempts: 0, lockedUntil: null },
       }),
-      this.db.session.create({ data: { tokenHash: hashToken(token), userId: user.id, expiresAt } }),
+      this.db.session.create({
+        data: {
+          tokenHash: hashToken(jti),
+          userId: user.id,
+          expiresAt,
+        },
+      }),
     ]);
+
     return { token, expiresAt, user: publicUser(user) };
   }
   async logout(tokenHash: string) {
