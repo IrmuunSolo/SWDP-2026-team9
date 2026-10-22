@@ -63,7 +63,8 @@ npm.cmd run dev:web
 
 | Хаяг                                      | Юуг шалгах                                                   |
 | ----------------------------------------- | ------------------------------------------------------------ |
-| http://localhost:5173                     | React апп                                                    |
+| http://localhost:5173                     | Нүүр хуудас: танилцуулга, ашиглах алхмууд, FAQ               |
+| http://localhost:5173/posts               | Нэвтэрсэн хэрэглэгчийн зарын жагсаалт                        |
 | http://localhost:3000/api/v1/health       | API процесс ажиллаж байгаа эсэх                              |
 | http://localhost:3000/api/v1/health/ready | PostgreSQL холболт                                           |
 | http://localhost:3000/docs                | Swagger UI, ready/planned төлөв                              |

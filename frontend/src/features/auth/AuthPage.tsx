@@ -68,7 +68,7 @@ export function AuthPage({ register = false }: { register?: boolean }) {
     setPending(true);
     try {
       await api(register ? 'register' : 'login', { body: parsed.data });
-      if (!register) window.location.assign('/');
+      if (!register) window.location.assign('/posts');
       else {
         element.reset();
         setRegistered(true);

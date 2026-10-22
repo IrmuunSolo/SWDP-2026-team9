@@ -6,6 +6,7 @@ import { authError, ErrorNotice } from './features/auth/Feedback';
 import { PostsPage } from './features/posts/PostsPage';
 import { LostPostPage } from './features/posts/lost/LostPostPage';
 import { FoundPostPage } from './features/posts/found/FoundPostPage';
+import { HomePage } from './features/home/HomePage';
 
 export function App() {
   const [user, setUser] = useState<PublicUser | null>(null);
@@ -16,9 +17,10 @@ export function App() {
   const logoutPending = useRef(false);
   const path = window.location.pathname;
   const authPath = path === '/login' || path === '/register';
-  const publicPath = authPath || path === '/verify-email';
+  const publicPath = path === '/' || authPath || path === '/verify-email';
   const knownPath = [
     '/',
+    '/posts',
     '/login',
     '/register',
     '/verify-email',
@@ -48,7 +50,7 @@ export function App() {
   }, [retry]);
 
   useEffect(() => {
-    if (!loading && user && authPath) window.location.replace('/');
+    if (!loading && user && authPath) window.location.replace('/posts');
   }, [loading, user, authPath]);
 
   useEffect(() => {
@@ -67,7 +69,9 @@ export function App() {
           ? 'Нэвтрэх'
           : path === '/verify-email'
             ? 'И-мэйл баталгаажуулах'
-            : 'Гээгдсэн ба олдсон эд зүйлс';
+            : path === '/'
+              ? 'Нүүр хуудас'
+              : 'Гээгдсэн ба олдсон эд зүйлс';
     document.title = `${title} · CampusFind`;
   }, [path]);
 
@@ -79,6 +83,7 @@ export function App() {
         <a href="/">Нүүр хуудас руу</a>
       </section>
     );
+  else if (path === '/') page = <HomePage member={!!user} />;
   else if ((authPath && loading) || (authPath && user))
     page = <p role="status">Бүртгэлийг шалгаж байна…</p>;
   else if (path === '/register') page = <AuthPage register />;
@@ -98,13 +103,8 @@ export function App() {
     );
   else if (!user)
     page = (
-      <section className="welcome state-card">
-        <span className="eyebrow">ГЭЭГДСЭН БОЛОН ОЛДСОН ЭД ЗҮЙЛС</span>
-        <h1>
-          Сургуулийн хүрээнд.
-          <br />
-          Хамтдаа олъё.
-        </h1>
+      <section className="state-card">
+        <h1>Нэвтрэх шаардлагатай</h1>
         <p>Зар харах, нийтлэхийн тулд сургуулийн и-мэйлээр баталгаажсан бүртгэлээр нэвтэрнэ үү.</p>
         <div className="actions">
           <a className="button-link" href="/login">
@@ -146,11 +146,14 @@ export function App() {
           CampusFind
         </a>
         <nav aria-label="Үндсэн цэс">
+          <a href="/" aria-current={path === '/' ? 'page' : undefined}>
+            Нүүр
+          </a>
           {loading ? (
             <span className="muted">Түр хүлээнэ үү…</span>
           ) : user ? (
             <>
-              <a href="/" aria-current={path === '/' ? 'page' : undefined}>
+              <a href="/posts" aria-current={path.startsWith('/posts') ? 'page' : undefined}>
                 Зарууд
               </a>
               <div className="user-summary">
@@ -179,10 +182,21 @@ export function App() {
       </header>
       <main id="main-content" tabIndex={-1}>
         {user && error && !publicPath && <ErrorNotice message={error} />}
+        {path === '/' && error && (
+          <div className="home-session-notice">
+            <p role="status">
+              Нэвтрэх төлөвийг шалгаж чадсангүй. Та нүүр хуудастай танилцах боломжтой.
+            </p>
+            <button className="secondary-button" onClick={() => setRetry((n) => n + 1)}>
+              Дахин шалгах
+            </button>
+          </div>
+        )}
         {page}
       </main>
       <footer className="site-footer">
         <strong>CampusFind</strong>
+        <a href="/#faq">Түгээмэл асуултууд</a>
         <span>Баг 9 · Сургуулийн гээгдсэн, олдсон эд зүйлс</span>
       </footer>
     </>
