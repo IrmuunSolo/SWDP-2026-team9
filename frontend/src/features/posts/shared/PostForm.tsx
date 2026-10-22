@@ -27,7 +27,7 @@ export function PostForm({ type }: { type: 'LOST' | 'FOUND' }) {
     };
     try {
       await api('createPost', { body });
-      window.location.assign('/');
+      window.location.assign('/posts');
     } catch (error) {
       setMessage(error instanceof Error ? error.message : 'Алдаа');
     } finally {
