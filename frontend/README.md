@@ -5,3 +5,5 @@ React/TypeScript UI, form, browser state, API client. `src/features/`-ээр UI-
 Repo root: `npm run dev:web`. Эхлээд `npm ci`, `npm run db:generate`, `npm run build`. Contract шинэчлэгдсэн бол rebuild хийгээд dev серверээ restart хийнэ.
 
 8–9 auth/layout; 10–11 posts/upload/search/filter; 12–13 chat/comments/handover/edit-close; 14–15 responsive/demo. [Дэлгэрэнгүй хуваарь](../docs/DELIVERY_PLAN.md).
+
+8–9-р долоо хоногийн төлөвлөгөө, API хамаарал, US-01/US-02 acceptance checklist: [FRONTEND_W08_09.md](../docs/FRONTEND_W08_09.md).

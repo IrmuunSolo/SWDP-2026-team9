@@ -4,6 +4,8 @@ export class ApiError extends Error {
     public readonly status: number,
     message: string,
     public readonly requestId?: string,
+    public readonly code?: string,
+    public readonly details?: { path: (string | number)[]; message: string }[],
   ) {
     super(message);
   }
@@ -37,12 +39,24 @@ export async function api<T>(
   } catch {
     throw new ApiError(0, 'API сервертэй холбогдож чадсангүй');
   }
-  const result = await response.json();
-  if (!response.ok)
+  let result;
+  try {
+    result = await response.json();
+  } catch {
+    throw new ApiError(response.status, 'Серверийн хариуг уншиж чадсангүй. Дахин оролдоно уу.');
+  }
+  if (!response.ok) {
+    if (response.status === 401 && id !== 'login' && id !== 'me')
+      window.dispatchEvent(new Event('campusfind:session-expired'));
     throw new ApiError(
       response.status,
-      result.error?.message ?? 'Хүсэлт амжилтгүй',
-      result.error?.requestId,
+      typeof result?.error?.message === 'string' ? result.error.message : 'Хүсэлт амжилтгүй',
+      typeof result?.error?.requestId === 'string' ? result.error.requestId : undefined,
+      typeof result?.error?.code === 'string' ? result.error.code : undefined,
     );
-  return route.output.parse(result.data) as T;
+  }
+  const parsed = route.output.safeParse(result?.data);
+  if (!parsed.success)
+    throw new ApiError(response.status, 'Серверийн хариу тохирохгүй байна. Дахин оролдоно уу.');
+  return parsed.data as T;
 }
