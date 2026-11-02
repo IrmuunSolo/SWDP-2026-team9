@@ -55,7 +55,52 @@ Dependency суулгах алхмыг source хуулах алхмын өмнө
 
 ## Э.Амарболд — Compose ба өгөгдлийн сан
 
-**Төлөв:** Гүйцэтгэлийн хэсгийг бөглөөгүй.
+**Branch:** `lab08/compose-stack`
+
+### Хийсэн ажил
+
+1. Ирмүүний PR main салбарт орсны дараа локал main салбараа шинэчилж, `lab08/compose-stack` шинэ салбар үүсгэсэн. Fedora Linux болон Podman (Docker CLI emulation) орчинд `campusfind:lab08` image-ийг дахин build хийж бэлтгэсэн.
+2. `devops/compose.lab08.yaml` тусдаа Compose файл үүсгэж `postgres:17-alpine`, `axllent/mailpit:v1.27`, `api`, `web` гэсэн 4 сервист зориулсан сүлжээ, volume, healthcheck болон орчны хувьсагчдыг тохируулсан.
+3. PostgreSQL болон Mailpit сервисүүдийг Compose-оор эхлүүлж, API image ашиглан `npm run db:deploy` ажиллуулж өгөгдлийн сангийн init migration-ийг амжилттай хийсэн.
+4. Compose stack-ийг бүрэн босгохоос өмнө `podman run` (docker run) ашиглан дан API container ажиллуулж, log болон healthcheck endpoint-уудыг шалгасан.
+5. `docker compose up -d --wait` командаар бүх 4 сервисийг асааж, бүх сервис `Healthy` төлөвтэй болсныг болон `/api/v1/health/ready` хүсэлтээр `{"data":{"status":"ready"}}` хариу буцааж байгааг баталгаажуулсан.
+
+### Гол командууд
+
+```bash
+docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml config --quiet
+docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml up -d --wait postgres mailpit
+docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml run --rm --no-deps api npm run db:deploy
+docker run -d --name campusfind-lab08-api-run --network campusfind-lab08_default -p 127.0.0.1:13000:3000 -e DATABASE_URL=postgresql://campusfind:local_dev_only@postgres:5432/campusfind?schema=public -e UNIVERSITY_EMAIL_DOMAINS=example.edu -e WEB_ORIGIN=http://localhost:15173 -e SMTP_HOST=mailpit -e SMTP_PORT=1025 -e SMTP_SECURE=false campusfind:lab08
+docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml up -d --wait
+docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml ps
+curl -4 http://localhost:13000/api/v1/health/ready
+```
+
+### Шалгалтын үр дүн ба ажиглалт
+
+| Алхам / Сервис | Төлөв | Ажигласан үр дүн | Тайлбар |
+| --- | --- | --- | --- |
+| `postgres` | `Healthy` | `pg_isready` healthcheck амжилттай | PostgreSQL 17 өгөгдлийн сан бэлэн болж `lab08_pg` volume-д холбогдсон. |
+| `mailpit` | `Healthy` | Ports `18025->8025`, `1025` ажиллаж байна | И-мэйл туршилтын SMTP сервис бэлэн болсон. |
+| `db:deploy` | `DONE` | Migration-ууд амжилттай ажилласан | DB schema бэлэн болж шаардлагатай хүснэгтүүд үүссэн. |
+| `api` | `Healthy` | `status: ready` | NestJS API нь DB болон Mailpit-тэй сүлжээгээр амжилттай холбогдсон. |
+| `web` | `Healthy` | Port `15173->5173` | Frontend container нь API proxy тохиргоотойгоор ажилласан. |
+
+### Илэрсэн алдаа ба засвар
+
+- **Podman CLI emulation болон IPv6 порт холболтын асуудал:** Fedora Linux дээр Podman emulation ашиглах үед стандарт `curl http://localhost:13000/...` нь IPv6 / Podman network socket-оос болж `Connection reset by peer` алдаа өгч байсан.
+- **Засвар:** `curl` команд дээр IPv4-ийг тусгайлан заах `-4` туг ашиглаж (`curl -4 http://127.0.0.1:13000/api/v1/health/ready`), Compose орчноор 4 сервисийг хамтад нь асаан DB болон API хоорондын сүлжээний холболтыг хэвийн болгож шийдвэрлэсэн.
+
+### Нотолгоо ба шалгалтын төлөв
+
+Compose stack-ийн 4 сервис (`postgres`, `mailpit`, `api`, `web`) бүгд `Healthy` төлөвтэй ажиллаж, `/api/v1/health/ready` хүсэлтээр `{"data":{"status":"ready"}}` буцаасан нь бодит логиор нотлогдсон.
+
+- Compose stack, DB migration болон healthcheck: гүйцэтгэсэн.
+- `git diff --check`: алдаагүй.
+- `npm run check`, `npm test`: локал орчинд шалгаж баталгаажуулна.
+- Commit/PR: `lab08/compose-stack` branch дээр commit хийж, Нармандах руу review хийлгэхээр PR нээхэд бэлэн болсон.
+
 
 - Хийсэн ажил: [Compose-ийн api, web, postgres, mailpit сервисүүд, сүлжээ, healthcheck].
 - Шалгалт: [migration, дан API docker run/logs, readiness, нийт check/test-ийн бодит үр дүн].

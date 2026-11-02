@@ -1,0 +1,63 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: campusfind
+      POSTGRES_PASSWORD: local_dev_only
+      POSTGRES_DB: campusfind
+    volumes:
+      - lab08_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U campusfind -d campusfind']
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  mailpit:
+    image: axllent/mailpit:v1.27
+    ports:
+      - '127.0.0.1:18025:8025'
+
+  api:
+    image: campusfind:lab08
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: development
+      HOST: 0.0.0.0
+      PORT: '3000'
+      WEB_ORIGIN: http://localhost:15173
+      DATABASE_URL: postgresql://campusfind:local_dev_only@postgres:5432/campusfind?schema=public
+      UNIVERSITY_EMAIL_DOMAINS: example.edu
+      SMTP_HOST: mailpit
+      SMTP_PORT: '1025'
+      SMTP_SECURE: 'false'
+      MAIL_FROM: CampusFind <noreply@example.edu>
+    ports:
+      - '127.0.0.1:13000:3000'
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mailpit:
+        condition: service_started
+    healthcheck:
+      test: ['CMD', 'node', '-e', "fetch('http://127.0.0.1:3000/api/v1/health/ready').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
+
+  web:
+    image: campusfind:lab08
+    command: ['npm', 'run', 'dev', '-w', '@campusfind/web', '--', '--host', '0.0.0.0']
+    environment:
+      API_PROXY_TARGET: http://api:3000
+    ports:
+      - '127.0.0.1:15173:5173'
+    depends_on:
+      api:
+        condition: service_healthy
+
+volumes:
+  lab08_pg:
