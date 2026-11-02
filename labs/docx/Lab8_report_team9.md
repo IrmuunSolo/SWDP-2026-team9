@@ -51,7 +51,6 @@ Dependency суулгах алхмыг source хуулах алхмын өмнө
 - Дан web шалгалтын үед API/DB/SMTP ажиллуулаагүй тул бүртгэл, нэвтрэлтийн нэгдсэн урсгалыг энэ шатанд баталгаажуулаагүй.
 - `git diff --check`: алдаагүй.
 - `npm run check`, `npm test`: нэгдсэн шалгалтыг 3-р шатанд ажиллуулсан (Г.Нармандахын хэсгийг үзнэ үү).
-<!-- Л.Ирмүүн: 4.9-р алхамд `npm run check`, `npm test`-ийг өөрөө ажиллуулсан бол дээрх мөрийг өөрийн бодит үр дүнгээр солиорой. -->
 - Commit/PR: #26 (`a0ae6ec`), main салбарт нэгтгэгдсэн.
 
 ## Э.Амарболд — Compose ба өгөгдлийн сан
@@ -101,8 +100,6 @@ Compose stack-ийн 4 сервис ажиллаж (`postgres`, `mailpit`, `api`
 - `git diff --check`: алдаагүй.
 - `npm run check`, `npm test`: нэгдсэн шалгалтыг 3-р шатанд ажиллуулсан (Г.Нармандахын хэсгийг үзнэ үү).
 - Commit: `eeb7a59` (`lab08/compose-stack`). Г.Нармандахын PR-д багтаж main салбарт нэгтгэгдэнэ.
-
-> Тэмдэглэл: Compose файл анх `labs/lab08/devops/` хавтсанд үүссэн байсныг тайлан болон командуудад заасны дагуу `devops/` хавтас руу Г.Нармандах шилжүүлсэн. Ингэснээр build context repo root болсон.
 
 ## Г.Нармандах — Backend ба нэгдсэн баталгаажуулалт
 
@@ -155,8 +152,7 @@ npm run check && npm test && git diff --check
 ![Зураг 4. PostgreSQL integration тест](../lab08/evidence/04-integration-test.png)
 ![Зураг 5. Mailpit-д ирсэн баталгаажуулах захиа](../lab08/evidence/05-mailpit-verify.png)
 
-- Commit/PR: [PR-ийн холбоос]
-<!-- Г.Нармандах: PR нээсний дараа дээрх [PR-ийн холбоос]-ыг бодит холбоосоор солиорой. -->
+- Commit/PR: #27 (https://github.com/IrmuunSolo/SWDP-2026-team9/pull/27)
 
 ## Дүгнэлт
 
