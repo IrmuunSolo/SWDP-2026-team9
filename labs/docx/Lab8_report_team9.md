@@ -1,8 +1,11 @@
 # Лаборатори 8 — Dockerfile, image ба container
 
-**Баг:** 9 · **Төсөл:** CampusFind / SWDP-2026-team9  
-**Огноо:** 2026-10-31 – 2026-11-03  
-**Орчин:** Л.Ирмүүн — Windows, Docker Desktop · Э.Амарболд — Fedora Linux, Podman · Г.Нармандах — macOS, Colima. Бүгд `node:24-bookworm-slim` image ашигласан.  
+**Баг:** 9 · **Төсөл:** CampusFind / SWDP-2026-team9
+
+**Огноо:** 2026-10-31 – 2026-11-03
+
+**Орчин:** Л.Ирмүүн — Windows, Docker Desktop · Э.Амарболд — Fedora Linux, Podman · Г.Нармандах — macOS, Colima. Бүгд `node:24-bookworm-slim` image ашигласан.
+
 
 ## Зорилго
 
@@ -68,10 +71,15 @@ Dependency суулгах алхмыг source хуулах алхмын өмнө
 ### Гол командууд
 
 ```bash
+docker build --progress=plain -t campusfind:lab08 .
 docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml config --quiet
 docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml up -d --wait postgres mailpit
 docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml run --rm --no-deps api npm run db:deploy
 docker run -d --name campusfind-lab08-api-run --network campusfind-lab08_default -p 127.0.0.1:13000:3000 -e DATABASE_URL=postgresql://campusfind:local_dev_only@postgres:5432/campusfind?schema=public -e UNIVERSITY_EMAIL_DOMAINS=example.edu -e WEB_ORIGIN=http://localhost:15173 -e SMTP_HOST=mailpit -e SMTP_PORT=1025 -e SMTP_SECURE=false campusfind:lab08
+docker logs campusfind-lab08-api-run
+curl -4 --fail --retry 10 --retry-connrefused --retry-delay 1 http://localhost:13000/api/v1/health/ready
+docker stop campusfind-lab08-api-run
+docker rm campusfind-lab08-api-run
 docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml up -d --wait
 docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml ps
 curl -4 http://localhost:13000/api/v1/health/ready
@@ -84,7 +92,7 @@ curl -4 http://localhost:13000/api/v1/health/ready
 | `postgres` | `Healthy` | `pg_isready` healthcheck амжилттай | PostgreSQL 17 өгөгдлийн сан бэлэн болж `lab08_pg` volume-д холбогдсон. |
 | `mailpit` | `Healthy` | Ports `18025->8025`, `1025` ажиллаж байна | И-мэйл туршилтын SMTP сервис бэлэн болсон. |
 | `db:deploy` | `DONE` | Migration-ууд амжилттай ажилласан | DB schema бэлэн болж шаардлагатай хүснэгтүүд үүссэн. |
-| `api` | `Healthy` | `status: ready` | NestJS API нь DB болон Mailpit-тэй сүлжээгээр амжилттай холбогдсон. |
+| `api` | `Healthy` | `status: ready` | Readiness-ийн SELECT 1 query амжилттай: API нь DB-тэй холбогдсон. SMTP хүргэлтийг Mailpit-ийн захиа болон UI урсгалаар тусад нь баталгаажуулсан. |
 | `web` | `Running` | Port `15173->5173` | Frontend container нь API proxy тохиргоотойгоор ажилласан. |
 
 ### Илэрсэн алдаа ба засвар
@@ -103,7 +111,8 @@ Compose stack-ийн 4 сервис ажиллаж (`postgres`, `mailpit`, `api`
 
 ## Г.Нармандах — Backend ба нэгдсэн баталгаажуулалт
 
-**Branch:** `lab08/backend-verification` · **Шалгасан commit:** `17a4fae`  
+**Branch:** `lab08/backend-verification` · **Шалгасан commit:** `17a4fae`
+
 **Орчин:** macOS (Apple Silicon), Colima 0.10.3, Docker 29.7.2, Docker Compose v5.6.1, Node 24, npm 11
 
 ### Хийсэн ажил
@@ -116,14 +125,22 @@ Compose stack-ийн 4 сервис ажиллаж (`postgres`, `mailpit`, `api`
 
 ### Гол командууд
 
+Доорх командуудыг repo root дээр Bash shell-оор ажиллуулна. Тестийн DB-г зөвхөн анхны удаа үүсгэнэ; давтан шалгахдаа `CREATE DATABASE` мөрийг алгасаж migration болон тестээ ажиллуулна. Development DB-г integration тестэд ашиглахгүй.
+
 ```bash
 docker build --progress=plain -t campusfind:lab08 .
+docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml up -d --wait postgres mailpit
+docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml run --rm --no-deps api npm run db:deploy
 docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml up -d --wait
 docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml ps
 curl -4 http://localhost:13000/api/v1/health/ready
+# Зөвхөн анхны удаа үүсгэнэ; аль хэдийн байгаа DB-г дахин үүсгэхгүй.
+docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml exec -T postgres psql -U campusfind -d postgres -v ON_ERROR_STOP=1 -c "CREATE DATABASE campusfind_test;"
 T="postgresql://campusfind:local_dev_only@postgres:5432/campusfind_test?schema=public"
 docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml run --rm --no-deps \
-  -e DATABASE_URL=$T -e TEST_DATABASE_URL=$T api npm run test:integration
+  -e DATABASE_URL="$T" api npm run db:deploy
+docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml run --rm --no-deps \
+  -e DATABASE_URL="$T" -e TEST_DATABASE_URL="$T" api npm run test:integration
 npm run check && npm test && git diff --check
 ```
 
