@@ -17,6 +17,7 @@ export async function api<T>(
     body?: unknown;
     params?: Record<string, string>;
     query?: Record<string, string | number>;
+    signal?: AbortSignal;
   } = {},
 ): Promise<T> {
   const route = routes.find((r) => r.id === id);
@@ -33,11 +34,27 @@ export async function api<T>(
     response = await fetch('/api/v1' + path + (query.size ? '?' + query : ''), {
       method: route.method.toUpperCase(),
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json', 'X-CampusFind': 'web' },
-      ...(options.body === undefined ? {} : { body: JSON.stringify(options.body) }),
+      signal: options.signal,
+      headers: {
+        ...(options.body instanceof FormData ? {} : { 'Content-Type': 'application/json' }),
+        'X-CampusFind': 'web',
+      },
+      ...(options.body === undefined
+        ? {}
+        : { body: options.body instanceof FormData ? options.body : JSON.stringify(options.body) }),
     });
-  } catch {
+  } catch (error) {
+    if (options.signal?.aborted) throw error;
     throw new ApiError(0, 'API сервертэй холбогдож чадсангүй');
+  }
+  if (response.status === 401 && id !== 'login' && id !== 'me')
+    window.dispatchEvent(new Event('campusfind:session-expired'));
+  // OpenAPI defines getPhoto as binary, unlike the reserved route.output metadata.
+  if (response.ok && id === 'getPhoto') {
+    const blob = await response.blob();
+    if (!['image/jpeg', 'image/png'].includes(blob.type))
+      throw new ApiError(response.status, 'Зургийн хариу тохирохгүй байна.');
+    return blob as T;
   }
   let result;
   try {
@@ -46,13 +63,17 @@ export async function api<T>(
     throw new ApiError(response.status, 'Серверийн хариуг уншиж чадсангүй. Дахин оролдоно уу.');
   }
   if (!response.ok) {
-    if (response.status === 401 && id !== 'login' && id !== 'me')
-      window.dispatchEvent(new Event('campusfind:session-expired'));
     throw new ApiError(
       response.status,
       typeof result?.error?.message === 'string' ? result.error.message : 'Хүсэлт амжилтгүй',
       typeof result?.error?.requestId === 'string' ? result.error.requestId : undefined,
       typeof result?.error?.code === 'string' ? result.error.code : undefined,
+      Array.isArray(result?.error?.details)
+        ? result.error.details.filter(
+            (d: { path?: unknown; message?: unknown }) =>
+              Array.isArray(d?.path) && typeof d?.message === 'string',
+          )
+        : undefined,
     );
   }
   const parsed = route.output.safeParse(result?.data);
