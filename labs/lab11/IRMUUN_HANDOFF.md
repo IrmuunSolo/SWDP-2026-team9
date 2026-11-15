@@ -2,6 +2,8 @@
 
 Огноо: 2026-11-16. Branch: `lab11/irmuun-eslint-frontend`. Суурь: `3143e22`.
 
+PR: [#29](https://github.com/IrmuunSolo/SWDP-2026-team9/pull/29). Кодын commit: `a5fa9cc`. Нармандахад (`Narmandah-cyber`) review хүсэлт өгсөн; approval ба merge хүлээгдэж байна. Кодын commit-ийн хоёр CI ногоон, дэлгэрэнгүй нь `irmuun-remote-ci.json` ба багийн тайланд бий.
+
 ## Дууссан ажил
 
 - ESLint 10.15.0, typescript-eslint 8.72.2, `@eslint/js` 10.0.1, globals 17.14.0; root flat config, lint/lint:fix.

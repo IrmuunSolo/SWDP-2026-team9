@@ -22,7 +22,7 @@ ESLint-ээр кодын зөрчил илрүүлж засах, npm audit-аа�
 
 ## Л.Ирмүүн — ESLint ба frontend
 
-**Branch:** `lab11/irmuun-eslint-frontend`. Код, нотолгоо ба локал шалгалт дууссан; PR/review төлөвийг нэгтгэхдээ шинэчилнэ.
+**Branch:** `lab11/irmuun-eslint-frontend`. **Кодын commit:** `a5fa9cc4da7de37d19fe580151028276c0178d95`. **PR:** [#29](https://github.com/IrmuunSolo/SWDP-2026-team9/pull/29). Код, нотолгоо ба локал шалгалт дууссан. Нармандахад (`Narmandah-cyber`) review хүсэлт өгсөн; approval ба merge хүлээгдэж байна.
 
 ### 4.1–4.5-ын хийсэн ажлыг шалгасан нь
 
@@ -125,6 +125,17 @@ Raw advisory URL/range/fixAvailable нь [initial root](../lab11/audit-initial-r
 Локал integration-д `campusfind-lab11-irmuun-test-db` нэртэй, `127.0.0.1:15432` порттой түр PostgreSQL 17, зөвхөн `campusfind_test` ашигласан. Development DB/volume-д хүрээгүй. Test user/posts-ийг тест цэвэрлэсэн. SMTP delivery болон шинэ Compose image build шалгаагүй.
 
 Browser fixture-ийн зориудын HTTP/network алдаанаас 13 resource console error гарсан; тайлбарлагдаагүй console warning/error болон pageerror 0. Browser upload/search-ийн амжилттай нөхцөл fixture, бодит API дээр 501 гэдгийг тусад нь тэмдэглэсэн.
+
+## Ирмүүний PR ба алсын CI
+
+Кодын `a5fa9cc` commit дээр PR-ийн хоёр workflow амжилттай дууссан:
+
+- [CampusFind CI run 43744475007](https://github.com/IrmuunSolo/SWDP-2026-team9/actions/runs/43744475007) — `CampusFind checks` PASS.
+- [CampusFind Foundation run 43744474941](https://github.com/IrmuunSolo/SWDP-2026-team9/actions/runs/43744474941) — install/generate, build/static checks, unit/HTTP tests, тусдаа DB migration/PostgreSQL integration PASS.
+
+Бодит API-аас авсан run/job/step snapshot: [irmuun-remote-ci.json](../lab11/irmuun-remote-ci.json). Энэ нь дээрх кодын commit-ийн нотолгоо; CI-ийн тайлан/холбоос нэмсэн дараагийн commit-ийн төлөвийг PR-ийн Checks-ээс тусад нь шалгана. Root lint CI-д хараахан холбогдоогүй учраас эдгээр workflow-ийн PASS нь backend-ийн 4 lint finding арилсан гэсэн үг биш.
+
+Тусдаа tmpfs test контейнерийг ID-г нь шалгаж зогсоож устгасан; development volume хэвээр. Нармандах review хийж PR main-д merge болсны дараа дараагийн ээлжээ эхлүүлнэ.
 
 ## Г.Нармандах — Backend ба shared код
 
