@@ -1,0 +1,73 @@
+{
+  "verifiedAt": "2026-11-15T17:48:08.476Z",
+  "baseCommit": "3143e2210a2f243910d37160778c8e0ab959a86b",
+  "beforeFindingMatches": true,
+  "beforeFiles": 57,
+  "beforeErrors": 15,
+  "beforeWarnings": 0,
+  "sourceMatches": [
+    {
+      "file": "C:\\Users\\irmuu\\OneDrive\\Documents\\4A\\ПХ хөг процесс\\SWDP-2026-team9\\backend\\src\\common\\http.ts",
+      "sourceMatches": true
+    },
+    {
+      "file": "C:\\Users\\irmuu\\OneDrive\\Documents\\4A\\ПХ хөг процесс\\SWDP-2026-team9\\backend\\test\\integration\\database.test.ts",
+      "sourceMatches": true
+    },
+    {
+      "file": "C:\\Users\\irmuu\\OneDrive\\Documents\\4A\\ПХ хөг процесс\\SWDP-2026-team9\\backend\\test\\unit\\http.test.ts",
+      "sourceMatches": true
+    },
+    {
+      "file": "C:\\Users\\irmuu\\OneDrive\\Documents\\4A\\ПХ хөг процесс\\SWDP-2026-team9\\frontend\\test\\browser-api.mjs",
+      "sourceMatches": true
+    },
+    {
+      "file": "C:\\Users\\irmuu\\OneDrive\\Documents\\4A\\ПХ хөг процесс\\SWDP-2026-team9\\frontend\\test\\browser.mjs",
+      "sourceMatches": true
+    },
+    {
+      "file": "C:\\Users\\irmuu\\OneDrive\\Documents\\4A\\ПХ хөг процесс\\SWDP-2026-team9\\frontend\\test\\posts.test.mjs",
+      "sourceMatches": true
+    }
+  ],
+  "confirmedLintExit": 1,
+  "originalConfigSha256": "c41c037546f536a9bddba0a613811dd9e1271a2addc5cbd940cb5df8e539fd1e",
+  "originalEvidenceSha256": {
+    "lint-before-all.json": "f58b6a904ba75f9733de5b045415c9df514c0a2d6a1777d1fd31e3ca36d9fcef",
+    "lint-before-all.txt": "fc8275e501c543cef82fa4892587143a5fb1279a8ca175d45783a3b1648e174b",
+    "lint-before-meta.txt": "f46821dfcd779b40f6f661954f473b0d17360ff4ce1e2770a62e9d84d3fa02ed",
+    "audit-initial-root.json": "bd2f8b43e38e70d552090ed4153e55336efa53c3fe4d65cb3d3995c610b7fa1b",
+    "audit-initial-lab07.json": "a159ddfb19857067e574d6cb12a44282894abe175407177a18038aefdb483014"
+  },
+  "audit": [
+    {
+      "name": "audit-initial-root",
+      "valid": true,
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 4,
+        "critical": 0,
+        "total": 4
+      }
+    },
+    {
+      "name": "audit-initial-lab07",
+      "valid": true,
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      }
+    }
+  ],
+  "notes": [
+    "Original lint-before-meta.txt omitted its exit code; unchanged-config verification independently confirmed exit 1.",
+    "Original stylish TXT has mojibake paths; JSON file paths are valid. Original evidence retained."
+  ]
+}

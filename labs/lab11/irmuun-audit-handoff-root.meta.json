@@ -1,0 +1,18 @@
+{
+  "startedAt": "2026-11-15T17:52:09.678Z",
+  "endedAt": "2026-11-15T17:52:19.050Z",
+  "args": [
+    "audit",
+    "--json"
+  ],
+  "exitCode": 1,
+  "valid": true,
+  "vulnerabilities": {
+    "info": 0,
+    "low": 0,
+    "moderate": 7,
+    "high": 4,
+    "critical": 0,
+    "total": 11
+  }
+}

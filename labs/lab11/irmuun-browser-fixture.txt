@@ -1,0 +1,25 @@
+Command: node frontend/test/browser.mjs
+Started UTC: 2026-11-15T17:50:23.932Z
+
+PASS URL filters, pagination, reload, back/forward, invalid range, request race
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert.ok(
+
+    at file:///C:/Users/irmuu/OneDrive/Documents/4A/%D0%9F%D0%A5%20%D1%85%D3%A9%D0%B3%20%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81/SWDP-2026-team9/frontend/test/browser.mjs:268:10 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.14.1
+
+Exit code: 1
+Ended UTC: 2026-11-15T17:50:28.976Z

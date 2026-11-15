@@ -1,0 +1,38 @@
+Command: npm run db:deploy
+Started UTC: 2026-11-15T17:53:15.481Z
+
+
+> campusfind@0.1.0 db:deploy
+> npm run db:deploy -w @campusfind/database
+
+
+> @campusfind/database@0.1.0 db:deploy
+> node --env-file-if-exists=../.env ../node_modules/prisma/build/index.js migrate deploy
+
+Prisma schema loaded from prisma\schema.prisma
+Datasource "db": PostgreSQL database "campusfind_test", schema "public" at "localhost:15432"
+
+1 migration found in prisma/migrations
+
+Applying migration `20261020000000_init`
+
+┌─────────────────────────────────────────────────────────┐
+│  Update available 6.19.3 -> 8.0.0-rc.33                 │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+The following migration(s) have been applied:
+
+migrations/
+  └─ 20261020000000_init/
+    └─ migration.sql
+      
+All migrations have been successfully applied.
+
+Exit code: 0
+Ended UTC: 2026-11-15T17:53:22.016Z

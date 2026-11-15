@@ -1,0 +1,9 @@
+{
+  "command": "node",
+  "args": [
+    "frontend/test/browser-api.mjs"
+  ],
+  "startedAt": "2026-11-15T17:53:34.578Z",
+  "endedAt": "2026-11-15T17:53:45.662Z",
+  "exitCode": 0
+}

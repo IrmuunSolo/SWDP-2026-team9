@@ -1,0 +1,13 @@
+{
+  "command": "eslint",
+  "args": [
+    "frontend",
+    "--format",
+    "json",
+    "--output-file",
+    "labs/lab11/irmuun-lint-after-frontend.json"
+  ],
+  "startedAt": "2026-11-15T17:49:41.795Z",
+  "endedAt": "2026-11-15T17:49:45.216Z",
+  "exitCode": 0
+}

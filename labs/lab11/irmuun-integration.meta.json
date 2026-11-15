@@ -1,0 +1,10 @@
+{
+  "command": "npm",
+  "args": [
+    "run",
+    "test:integration"
+  ],
+  "startedAt": "2026-11-15T17:53:22.080Z",
+  "endedAt": "2026-11-15T17:53:34.513Z",
+  "exitCode": 0
+}

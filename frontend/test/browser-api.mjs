@@ -27,7 +27,9 @@ async function ready(url) {
   for (let i = 0; i < 80; i++) {
     try {
       if ((await fetch(url)).ok) return;
-    } catch {}
+    } catch {
+      // The API may still be starting; retry until the readiness deadline.
+    }
     await delay(200);
   }
   throw new Error('QA server failed to start');

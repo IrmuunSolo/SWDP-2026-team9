@@ -1,0 +1,12 @@
+{
+  "command": "npm",
+  "args": [
+    "run",
+    "test",
+    "-w",
+    "@campusfind/web"
+  ],
+  "startedAt": "2026-11-15T17:49:35.923Z",
+  "endedAt": "2026-11-15T17:49:37.855Z",
+  "exitCode": 0
+}

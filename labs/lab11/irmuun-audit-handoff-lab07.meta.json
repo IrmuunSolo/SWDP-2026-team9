@@ -1,0 +1,20 @@
+{
+  "startedAt": "2026-11-15T17:52:19.053Z",
+  "endedAt": "2026-11-15T17:52:20.045Z",
+  "args": [
+    "--prefix",
+    "labs/lab07",
+    "audit",
+    "--json"
+  ],
+  "exitCode": 0,
+  "valid": true,
+  "vulnerabilities": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 0,
+    "critical": 0,
+    "total": 0
+  }
+}

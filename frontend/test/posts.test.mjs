@@ -68,7 +68,7 @@ test('transport: cookie/CSRF, multipart browser boundary, binary, errors/expired
   const originalWindow = globalThis.window;
   globalThis.window = new EventTarget();
   let expired = 0;
-  window.addEventListener('campusfind:session-expired', () => expired++);
+  globalThis.window.addEventListener('campusfind:session-expired', () => expired++);
   try {
     globalThis.fetch = async (url, init) => {
       assert.equal(url, '/api/v1/posts/id/photos');

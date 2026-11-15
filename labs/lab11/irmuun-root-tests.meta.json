@@ -1,0 +1,9 @@
+{
+  "command": "npm",
+  "args": [
+    "test"
+  ],
+  "startedAt": "2026-11-15T17:49:51.239Z",
+  "endedAt": "2026-11-15T17:49:59.437Z",
+  "exitCode": 0
+}

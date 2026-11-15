@@ -1,0 +1,6 @@
+Command: eslint frontend --format json --output-file labs/lab11/irmuun-lint-after-frontend.json
+Started UTC: 2026-11-15T17:53:29.855Z
+
+
+Exit code: 0
+Ended UTC: 2026-11-15T17:53:32.116Z

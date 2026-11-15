@@ -1,0 +1,10 @@
+{
+  "command": "npm",
+  "args": [
+    "run",
+    "check"
+  ],
+  "startedAt": "2026-11-15T17:58:05.036Z",
+  "endedAt": "2026-11-15T17:58:19.740Z",
+  "exitCode": 0
+}

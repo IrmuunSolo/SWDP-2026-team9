@@ -1,0 +1,19 @@
+Command: npm run build -w @campusfind/web
+Started UTC: 2026-11-15T17:49:37.926Z
+
+
+> @campusfind/web@0.1.0 build
+> tsc --noEmit && vite build
+
+vite v7.3.7 building client environment for production...
+transforming...
+✓ 64 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.40 kB │ gzip:  0.27 kB
+dist/assets/index-BWFLRVP0.css    7.95 kB │ gzip:  2.34 kB
+dist/assets/index-zIHNrULM.js   319.30 kB │ gzip: 90.91 kB
+✓ built in 855ms
+
+Exit code: 0
+Ended UTC: 2026-11-15T17:49:41.714Z

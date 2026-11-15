@@ -1,0 +1,60 @@
+Command: npm run check
+Started UTC: 2026-11-15T17:48:52.038Z
+
+
+> campusfind@0.1.0 check
+> npm run build && npm run format:check && npm run contract:check && npm run check:plan && npm run check:layout
+
+
+> campusfind@0.1.0 build
+> npm run build -w @campusfind/contracts && npm run build -w @campusfind/database && npm run build -w @campusfind/api && npm run build -w @campusfind/web
+
+
+> @campusfind/contracts@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @campusfind/database@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @campusfind/api@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @campusfind/web@0.1.0 build
+> tsc --noEmit && vite build
+
+vite v7.3.7 building client environment for production...
+transforming...
+✓ 64 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.40 kB │ gzip:  0.27 kB
+dist/assets/index-BWFLRVP0.css    7.95 kB │ gzip:  2.34 kB
+dist/assets/index-zIHNrULM.js   319.30 kB │ gzip: 90.91 kB
+✓ built in 859ms
+
+> campusfind@0.1.0 format:check
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> campusfind@0.1.0 contract:check
+> node scripts/generate-contract.mjs --check
+
+34 API гэрээ шалгалаа
+
+> campusfind@0.1.0 check:plan
+> node scripts/check-plan.mjs
+
+Active plan: weeks 8–15; 15 stories / 70 SP; layer owners match; no dependency cycles or duplicate routes.
+
+> campusfind@0.1.0 check:layout
+> node scripts/check-layout.mjs
+
+Layer boundaries: frontend → contracts; backend → database/contracts; database → contracts; no cross-layer relative imports.
+
+Exit code: 0
+Ended UTC: 2026-11-15T17:49:10.389Z

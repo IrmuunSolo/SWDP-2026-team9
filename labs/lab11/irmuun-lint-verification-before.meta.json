@@ -1,0 +1,13 @@
+{
+  "command": "eslint",
+  "args": [
+    ".",
+    "--format",
+    "json",
+    "--output-file",
+    "labs/lab11/irmuun-lint-verification-before.json"
+  ],
+  "startedAt": "2026-11-15T17:47:27.855Z",
+  "endedAt": "2026-11-15T17:47:31.632Z",
+  "exitCode": 1
+}
