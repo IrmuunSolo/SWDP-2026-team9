@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1 --force",
     "build": "tsc --noEmit && vite build",
-    "preview": "vite preview --host 127.0.0.1"
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "node --test test/posts.test.mjs",
+    "test:browser": "node test/browser.mjs",
+    "test:browser:api": "node test/browser-api.mjs"
   },
   "dependencies": {
     "@campusfind/contracts": "0.1.0",

@@ -4,6 +4,7 @@ import { api, ApiError } from './api/client';
 import { AuthPage, VerifyPage } from './features/auth/AuthPage';
 import { authError, ErrorNotice } from './features/auth/Feedback';
 import { PostsPage } from './features/posts/PostsPage';
+import { PostDetailPage } from './features/posts/PostDetailPage';
 import { LostPostPage } from './features/posts/lost/LostPostPage';
 import { FoundPostPage } from './features/posts/found/FoundPostPage';
 import { HomePage } from './features/home/HomePage';
@@ -18,15 +19,16 @@ export function App() {
   const path = window.location.pathname;
   const authPath = path === '/login' || path === '/register';
   const publicPath = path === '/' || authPath || path === '/verify-email';
-  const knownPath = [
-    '/',
-    '/posts',
-    '/login',
-    '/register',
-    '/verify-email',
-    '/posts/new/lost',
-    '/posts/new/found',
-  ].includes(path);
+  const knownPath =
+    [
+      '/',
+      '/posts',
+      '/login',
+      '/register',
+      '/verify-email',
+      '/posts/new/lost',
+      '/posts/new/found',
+    ].includes(path) || /^\/posts\/[^/]+$/.test(path);
 
   useEffect(() => {
     let live = true;
@@ -116,6 +118,7 @@ export function App() {
     );
   else if (path === '/posts/new/lost') page = <LostPostPage />;
   else if (path === '/posts/new/found') page = <FoundPostPage />;
+  else if (/^\/posts\/[^/]+$/.test(path)) page = <PostDetailPage postId={path.split('/')[2]} />;
   else page = <PostsPage />;
 
   async function logout() {
