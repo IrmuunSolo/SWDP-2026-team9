@@ -89,7 +89,9 @@ try {
     if (server.exitCode !== null) throw new Error(serverLog);
     try {
       if ((await fetch(base)).ok) break;
-    } catch {}
+    } catch {
+      // Vite may still be starting; retry until the startup deadline.
+    }
     await delay(200);
     if (n === 59) throw new Error('Vite did not start: ' + serverLog);
   }
@@ -263,7 +265,10 @@ try {
   await page.getByRole('heading', { name: post.title }).waitFor();
   await page.goto(base + '/posts/new/found');
   await page.getByRole('button', { name: 'Зар нийтлэх', exact: true }).click();
-  assert.ok(await page.locator('[name=title]').evaluate((e) => e === document.activeElement));
+  // Validation focuses the field on the next animation frame.
+  await page.waitForFunction(
+    () => globalThis.document.querySelector('[name=title]') === globalThis.document.activeElement,
+  );
   await fillPost(true);
   await page.locator('[name=guardLocation]').selectOption('');
   await page.getByRole('button', { name: 'Зар нийтлэх', exact: true }).click();
@@ -347,8 +352,8 @@ try {
       await page.getByRole('button', { name: 'Илгээгдээгүй зургийг дахин илгээх' }).click();
       await page.waitForFunction(
         () =>
-          !document.querySelector('.post-form button[type="submit"]') &&
-          document.querySelector('.post-form')?.getAttribute('aria-busy') === 'false',
+          !globalThis.document.querySelector('.post-form button[type="submit"]') &&
+          globalThis.document.querySelector('.post-form')?.getAttribute('aria-busy') === 'false',
       );
     }
     assert.equal(createCount, beforeCreate + 1);
@@ -361,12 +366,20 @@ try {
   await page.goto(base + '/posts');
   await checkText(post.title);
   await page.screenshot({ path: join(output, 'mobile.png'), fullPage: true });
-  assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+  assert.ok(
+    await page.evaluate(
+      () => globalThis.document.documentElement.scrollWidth <= globalThis.innerWidth,
+    ),
+  );
   await page.keyboard.press('Tab');
-  assert.notEqual(await page.evaluate(() => document.activeElement?.tagName), 'BODY');
+  assert.notEqual(await page.evaluate(() => globalThis.document.activeElement?.tagName), 'BODY');
   await page.goto(base + '/posts/new/found');
   await fillPost(true);
-  assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+  assert.ok(
+    await page.evaluate(
+      () => globalThis.document.documentElement.scrollWidth <= globalThis.innerWidth,
+    ),
+  );
   await page.screenshot({ path: join(output, 'mobile-form.png'), fullPage: true });
   assert.deepEqual(errors, []);
   // Browser reports expected HTTP/aborted fixture requests as console errors.

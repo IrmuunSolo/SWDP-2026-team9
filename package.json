@@ -32,14 +32,20 @@
     "infra:up": "docker compose -p swdp-2026-team9 -f devops/compose.yaml up -d --wait",
     "infra:down": "docker compose -p swdp-2026-team9 -f devops/compose.yaml down",
     "db:validate": "npm run db:validate -w @campusfind/database",
-    "db:seed": "npm run db:seed -w @campusfind/database"
+    "db:seed": "npm run db:seed -w @campusfind/database",
+    "lint": "eslint . --max-warnings=0",
+    "lint:fix": "eslint . --fix --max-warnings=0"
   },
   "overrides": {
     "deepmerge-ts": "^8.0.0"
   },
   "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "^24.0.0",
+    "eslint": "10.15.0",
+    "globals": "17.14.0",
     "prettier": "3.6.2",
     "typescript": "5.9.3",
-    "@types/node": "^24.0.0"
+    "typescript-eslint": "8.72.2"
   }
 }

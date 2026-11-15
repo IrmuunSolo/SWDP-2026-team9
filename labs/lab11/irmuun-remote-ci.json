@@ -1,0 +1,191 @@
+{
+  "pr": "https://github.com/IrmuunSolo/SWDP-2026-team9/pull/29",
+  "sourceHeadSha": "a5fa9cc4da7de37d19fe580151028276c0178d95",
+  "recordedAtUTC": "2026-11-15 18:04:53 UTC",
+  "runs": [
+    {
+      "id": 43744475007,
+      "name": "CampusFind CI",
+      "status": "completed",
+      "conclusion": "success",
+      "run_number": 38,
+      "jobs_url": "https://api.github.com/repos/IrmuunSolo/SWDP-2026-team9/actions/runs/43744475007/jobs",
+      "logs_url": "https://api.github.com/repos/IrmuunSolo/SWDP-2026-team9/actions/runs/43744475007/logs",
+      "workflow_id": 388655668
+    },
+    {
+      "id": 43744474941,
+      "name": "CampusFind Foundation",
+      "status": "completed",
+      "conclusion": "success",
+      "run_number": 29,
+      "jobs_url": "https://api.github.com/repos/IrmuunSolo/SWDP-2026-team9/actions/runs/43744474941/jobs",
+      "logs_url": "https://api.github.com/repos/IrmuunSolo/SWDP-2026-team9/actions/runs/43744474941/logs",
+      "workflow_id": 390159786
+    }
+  ],
+  "jobs": [
+    {
+      "runId": 43744475007,
+      "jobs": [
+        {
+          "id": 132904626560,
+          "name": "CampusFind checks",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 43744475007,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Checkout",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Setup Node.js",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Install",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Test",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Post Setup Node.js",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Post Checkout",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "runId": 43744474941,
+      "jobs": [
+        {
+          "id": 132904626644,
+          "name": "Foundation checks",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 43744474941,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Initialize containers",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Install",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Generate Prisma client",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Build and static checks",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Unit and HTTP tests including Lab 7",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Apply migrations to isolated test database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "PostgreSQL integration",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Post Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 18
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Stop containers",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 21
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

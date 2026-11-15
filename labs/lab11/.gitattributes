@@ -1,0 +1,4 @@
+# Keep raw command captures byte-for-byte, including their original encoding.
+irmuun-checks.txt -text whitespace=cr-at-eol
+audit-initial-*.json -text whitespace=cr-at-eol
+lint-before-all.json -text

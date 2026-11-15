@@ -1,0 +1,309 @@
+# Лаб 11 — Ирмүүний шалгалтын гаралт
+Кодын commit: a5fa9cc; тайлангийн commit: 3e2c2bf. Source log-уудын агуулгыг доор нэгтгэв.
+
+========================================================================
+irmuun-lint-after-frontend.txt
+========================================================================
+Command: eslint frontend --max-warnings=0
+Started UTC: 2026-11-15T17:51:22.652Z
+
+
+Exit code: 0
+Ended UTC: 2026-11-15T17:51:26.472Z
+
+========================================================================
+irmuun-lint-after-all-readable.txt
+========================================================================
+Command: eslint . --max-warnings=0
+Started UTC: 2026-11-15T17:49:45.290Z
+
+
+C:\Users\irmuu\OneDrive\Documents\4A\ПХ хөг процесс\SWDP-2026-team9\backend\src\common\http.ts
+  6:47  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  6:52  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\irmuu\OneDrive\Documents\4A\ПХ хөг процесс\SWDP-2026-team9\backend\test\integration\database.test.ts
+  87:52  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\irmuu\OneDrive\Documents\4A\ПХ хөг процесс\SWDP-2026-team9\backend\test\unit\http.test.ts
+  26:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+✖ 4 problems (4 errors, 0 warnings)
+
+
+Exit code: 1
+Ended UTC: 2026-11-15T17:49:47.660Z
+
+========================================================================
+irmuun-check-final.txt
+========================================================================
+Command: npm run check
+Started UTC: 2026-11-15T17:58:05.036Z
+
+
+> campusfind@0.1.0 check
+> npm run build && npm run format:check && npm run contract:check && npm run check:plan && npm run check:layout
+
+
+> campusfind@0.1.0 build
+> npm run build -w @campusfind/contracts && npm run build -w @campusfind/database && npm run build -w @campusfind/api && npm run build -w @campusfind/web
+
+
+> @campusfind/contracts@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @campusfind/database@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @campusfind/api@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @campusfind/web@0.1.0 build
+> tsc --noEmit && vite build
+
+vite v7.3.7 building client environment for production...
+transforming...
+✓ 64 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.40 kB │ gzip:  0.27 kB
+dist/assets/index-BWFLRVP0.css    7.95 kB │ gzip:  2.34 kB
+dist/assets/index-zIHNrULM.js   319.30 kB │ gzip: 90.91 kB
+✓ built in 846ms
+
+> campusfind@0.1.0 format:check
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> campusfind@0.1.0 contract:check
+> node scripts/generate-contract.mjs --check
+
+34 API гэрээ шалгалаа
+
+> campusfind@0.1.0 check:plan
+> node scripts/check-plan.mjs
+
+Active plan: weeks 8–15; 15 stories / 70 SP; layer owners match; no dependency cycles or duplicate routes.
+
+> campusfind@0.1.0 check:layout
+> node scripts/check-layout.mjs
+
+Layer boundaries: frontend → contracts; backend → database/contracts; database → contracts; no cross-layer relative imports.
+
+Exit code: 0
+Ended UTC: 2026-11-15T17:58:19.740Z
+
+========================================================================
+irmuun-frontend-tests.txt
+========================================================================
+Command: npm run test -w @campusfind/web
+Started UTC: 2026-11-15T17:49:35.923Z
+
+
+> @campusfind/web@0.1.0 test
+> node --test test/posts.test.mjs
+
+✔ shared validation: trim, required fields, LOST/FOUND separation, GUARD and future local date (4.9387ms)
+✔ query: canonical empty parameters, pagination, combined filters, invalid range/page (1.0876ms)
+✔ photo limits: MIME, strictly under 5MB and total count (0.1292ms)
+✔ transport: cookie/CSRF, multipart browser boundary, binary, errors/expired session and abort (17.4303ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 395.5686
+
+Exit code: 0
+Ended UTC: 2026-11-15T17:49:37.855Z
+
+========================================================================
+irmuun-root-tests.txt
+========================================================================
+Command: npm test
+Started UTC: 2026-11-15T17:49:51.239Z
+
+
+> campusfind@0.1.0 test
+> npm run build -w @campusfind/contracts && npm run build -w @campusfind/database && npm test -w @campusfind/api && npm --prefix labs/lab07 test
+
+
+> @campusfind/contracts@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @campusfind/database@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @campusfind/api@0.1.0 test
+> npm run build && node --test dist/test/unit/*.test.js
+
+
+> @campusfind/api@0.1.0 build
+> tsc -p tsconfig.json
+
+▶ HTTP foundation: routes, CSRF, privacy, auth, explicit planned errors
+  ✔ liveness works without database or authentication (30.4126ms)
+  ✔ register route validates rather than falling into reservation (27.3299ms)
+  ✔ mutation rejects missing CSRF header (2.3583ms)
+  ✔ foreign origin is rejected even with header (2.0762ms)
+  ✔ posts need authentication (1.939ms)
+  ✔ me never leaks full code, email or hash (2.806ms)
+  ✔ planned feature returns 501 instead of fake success (2.5856ms)
+  ✔ data-layer search seam becomes HTTP 501 without querying DB (2.5349ms)
+  ✔ data-layer filter seam becomes HTTP 501 without leaking internal errors (2.6544ms)
+  ✔ nonadmin cannot enter admin reservation (2.5333ms)
+  ✔ unknown authenticated route returns uniform 404 (1.8581ms)
+✔ HTTP foundation: routes, CSRF, privacy, auth, explicit planned errors (175.3565ms)
+✔ passwords are salted, verify correctly and never stored in plain text (102.6577ms)
+✔ opaque tokens have 256 bits and database fingerprint differs (0.5116ms)
+✔ only exact university domains are allowed (0.1492ms)
+✔ public projection masks student identity (0.1354ms)
+✔ only actual chat participants may read messages (0.1199ms)
+✔ one person confirming twice does not close handover (0.5539ms)
+✔ two distinct confirmations complete handover (0.0819ms)
+✔ outsider cannot confirm; finder cannot be owner (0.2083ms)
+✔ LOST accepts only its public fields (1.5728ms)
+✔ GUARD requires a building; MEET rejects a guard building (0.4884ms)
+✔ input cannot promote role or set verification (0.2926ms)
+✔ list is bounded and dates are ordered (0.4635ms)
+✔ API ids and method/path pairs are unique (0.1022ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1095.1155
+
+> campusfind-lab07@1.0.0 test
+> node --test
+
+✔ New found post is active (0.9246ms)
+✔ Blank title is rejected (0.3328ms)
+✔ Search finds title (0.5488ms)
+✔ Search finds description (0.1062ms)
+✔ Search ignores case and surrounding spaces (0.1203ms)
+✔ Closed posts are excluded from search (0.152ms)
+✔ Only finder can assign owner (0.6356ms)
+✔ Finder cannot become owner of the same post (0.1268ms)
+✔ Assigned owner cannot be replaced (0.1109ms)
+✔ Confirmation requires assigned owner (0.1629ms)
+✔ Unrelated user cannot confirm handover (0.1578ms)
+✔ One confirmation keeps post active (0.0719ms)
+✔ Two confirmations close post (0.0664ms)
+✔ Owner may confirm before finder (0.0446ms)
+✔ Repeated finder confirmation does not close post (0.0406ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 97.6341
+
+Exit code: 0
+Ended UTC: 2026-11-15T17:49:59.437Z
+
+========================================================================
+irmuun-integration.txt
+========================================================================
+Command: npm run test:integration
+Started UTC: 2026-11-15T17:53:22.080Z
+
+
+> campusfind@0.1.0 test:integration
+> npm run build -w @campusfind/contracts && npm run build -w @campusfind/database && npm run test:integration -w @campusfind/api
+
+
+> @campusfind/contracts@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @campusfind/database@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @campusfind/api@0.1.0 test:integration
+> npm run build && node --test dist/test/integration/*.test.js
+
+
+> @campusfind/api@0.1.0 build
+> tsc -p tsconfig.json
+
+✔ PostgreSQL: register → verify → login → posts → logout, lockout and blocked session (4774.6064ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5953.6765
+
+Exit code: 0
+Ended UTC: 2026-11-15T17:53:34.513Z
+
+========================================================================
+irmuun-browser-fixture.txt
+========================================================================
+Command: node frontend/test/browser.mjs
+Started UTC: 2026-11-15T17:50:23.932Z
+
+PASS URL filters, pagination, reload, back/forward, invalid range, request race
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert.ok(
+
+    at file:///C:/Users/irmuu/OneDrive/Documents/4A/%D0%9F%D0%A5%20%D1%85%D3%A9%D0%B3%20%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81/SWDP-2026-team9/frontend/test/browser.mjs:268:10 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.14.1
+
+Exit code: 1
+Ended UTC: 2026-11-15T17:50:28.976Z
+
+========================================================================
+irmuun-browser-fixture-verified.txt
+========================================================================
+Command: node frontend/test/browser.mjs
+Started UTC: 2026-11-15T17:51:31.090Z
+
+PASS URL filters, pagination, reload, back/forward, invalid range, request race
+PASS detail, field focus, future date, GUARD, file limits/removal, create failure, duplicate submit, partial upload retry, binary image failure/retry, 401/403/501
+PASS page identity, nonblank, no overlay/runtime errors, desktop/mobile overflow, keyboard; expected fixture HTTP console errors: 13
+Screenshots: C:\Users\irmuu\OneDrive\Documents\4A\ПХ хөг процесс\SWDP-2026-team9\labs\lab11\irmuun-browser
+
+Exit code: 0
+Ended UTC: 2026-11-15T17:51:39.660Z
+
+========================================================================
+irmuun-browser-api.txt
+========================================================================
+Command: node frontend/test/browser-api.mjs
+Started UTC: 2026-11-15T17:53:34.578Z
+
+PASS REAL API + PostgreSQL: login cookie, LOST, FOUND/GUARD, list/detail/reload, search/upload 501, retry creates no duplicate post, logout revoke. SMTP not tested.
+
+Exit code: 0
+Ended UTC: 2026-11-15T17:53:45.662Z
