@@ -1,6 +1,0 @@
-Command: eslint frontend --max-warnings=0
-Started UTC: 2026-11-15T17:51:22.652Z
-
-
-Exit code: 0
-Ended UTC: 2026-11-15T17:51:26.472Z

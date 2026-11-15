@@ -1,2 +1,0 @@
-﻿Root audit exit: 1
-Lab07 audit exit: 0

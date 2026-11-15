@@ -1,8 +1,4 @@
 # Keep raw command captures byte-for-byte, including their original encoding.
-*.txt -text whitespace=cr-at-eol
+irmuun-checks.txt -text whitespace=cr-at-eol
 audit-initial-*.json -text whitespace=cr-at-eol
 lint-before-all.json -text
-irmuun-eslint-effective-config.json -text
-# These raw captures contain original whitespace; inspect their readable reports.
-lint-before-meta.txt -diff
-irmuun-test-db-migration.txt -diff

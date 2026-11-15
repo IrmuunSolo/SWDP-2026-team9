@@ -1,9 +1,0 @@
-{
-  "command": "node",
-  "args": [
-    "frontend/test/browser.mjs"
-  ],
-  "startedAt": "2026-11-15T17:51:31.090Z",
-  "endedAt": "2026-11-15T17:51:39.660Z",
-  "exitCode": 0
-}

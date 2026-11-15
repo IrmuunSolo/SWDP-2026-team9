@@ -1,0 +1,177 @@
+{
+  "baseCommit": "3143e2210a2f243910d37160778c8e0ab959a86b",
+  "sourceCommit": "a5fa9cc4da7de37d19fe580151028276c0178d95",
+  "verifiedAtUTC": "2026-11-15T17:48:08.476Z",
+  "beforeFindingMatches": true,
+  "sourceMatches": [
+    {
+      "file": "C:\\Users\\irmuu\\OneDrive\\Documents\\4A\\ПХ хөг процесс\\SWDP-2026-team9\\backend\\src\\common\\http.ts",
+      "sourceMatches": true
+    },
+    {
+      "file": "C:\\Users\\irmuu\\OneDrive\\Documents\\4A\\ПХ хөг процесс\\SWDP-2026-team9\\backend\\test\\integration\\database.test.ts",
+      "sourceMatches": true
+    },
+    {
+      "file": "C:\\Users\\irmuu\\OneDrive\\Documents\\4A\\ПХ хөг процесс\\SWDP-2026-team9\\backend\\test\\unit\\http.test.ts",
+      "sourceMatches": true
+    },
+    {
+      "file": "C:\\Users\\irmuu\\OneDrive\\Documents\\4A\\ПХ хөг процесс\\SWDP-2026-team9\\frontend\\test\\browser-api.mjs",
+      "sourceMatches": true
+    },
+    {
+      "file": "C:\\Users\\irmuu\\OneDrive\\Documents\\4A\\ПХ хөг процесс\\SWDP-2026-team9\\frontend\\test\\browser.mjs",
+      "sourceMatches": true
+    },
+    {
+      "file": "C:\\Users\\irmuu\\OneDrive\\Documents\\4A\\ПХ хөг процесс\\SWDP-2026-team9\\frontend\\test\\posts.test.mjs",
+      "sourceMatches": true
+    }
+  ],
+  "confirmedLintExit": 1,
+  "originalConfigSha256": "c41c037546f536a9bddba0a613811dd9e1271a2addc5cbd940cb5df8e539fd1e",
+  "currentConfigSha256": "956b5aae1941709094cf6e9f62b5ce1df674d3a5cf8742a3b0ed485c146c9964",
+  "effectiveAppConfigUnchanged": true,
+  "before": {
+    "files": 57,
+    "errors": 15,
+    "warnings": 0
+  },
+  "after": {
+    "files": 57,
+    "errors": 4,
+    "warnings": 0
+  },
+  "frontend": {
+    "files": 21,
+    "beforeErrors": 11,
+    "afterErrors": 0,
+    "warnings": 0,
+    "strictExit": 0
+  },
+  "remaining": [
+    {
+      "file": "C:\\Users\\irmuu\\OneDrive\\Documents\\4A\\ПХ хөг процесс\\SWDP-2026-team9\\backend\\src\\common\\http.ts",
+      "errors": 2,
+      "messages": [
+        {
+          "line": 6,
+          "column": 47,
+          "rule": "@typescript-eslint/no-explicit-any"
+        },
+        {
+          "line": 6,
+          "column": 52,
+          "rule": "@typescript-eslint/no-explicit-any"
+        }
+      ]
+    },
+    {
+      "file": "C:\\Users\\irmuu\\OneDrive\\Documents\\4A\\ПХ хөг процесс\\SWDP-2026-team9\\backend\\test\\integration\\database.test.ts",
+      "errors": 1,
+      "messages": [
+        {
+          "line": 87,
+          "column": 52,
+          "rule": "@typescript-eslint/no-explicit-any"
+        }
+      ]
+    },
+    {
+      "file": "C:\\Users\\irmuu\\OneDrive\\Documents\\4A\\ПХ хөг процесс\\SWDP-2026-team9\\backend\\test\\unit\\http.test.ts",
+      "errors": 1,
+      "messages": [
+        {
+          "line": 26,
+          "column": 37,
+          "rule": "@typescript-eslint/no-explicit-any"
+        }
+      ]
+    }
+  ],
+  "retainedOriginalEvidenceSha256": {
+    "lint-before-all.json": "f58b6a904ba75f9733de5b045415c9df514c0a2d6a1777d1fd31e3ca36d9fcef",
+    "audit-initial-root.json": "bd2f8b43e38e70d552090ed4153e55336efa53c3fe4d65cb3d3995c610b7fa1b",
+    "audit-initial-lab07.json": "a159ddfb19857067e574d6cb12a44282894abe175407177a18038aefdb483014"
+  },
+  "tools": {
+    "node": "24.14.1",
+    "npm": "11.19.1",
+    "eslint": "10.15.0",
+    "typescriptEslint": "8.72.2"
+  },
+  "audit": {
+    "initial": [
+      {
+        "name": "audit-initial-root",
+        "valid": true,
+        "vulnerabilities": {
+          "info": 0,
+          "low": 0,
+          "moderate": 0,
+          "high": 4,
+          "critical": 0,
+          "total": 4
+        }
+      },
+      {
+        "name": "audit-initial-lab07",
+        "valid": true,
+        "vulnerabilities": {
+          "info": 0,
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        }
+      }
+    ],
+    "handoffRoot": {
+      "startedAt": "2026-11-15T17:52:09.678Z",
+      "endedAt": "2026-11-15T17:52:19.050Z",
+      "args": [
+        "audit",
+        "--json"
+      ],
+      "exitCode": 1,
+      "valid": true,
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 7,
+        "high": 4,
+        "critical": 0,
+        "total": 11
+      }
+    },
+    "handoffLab07": {
+      "startedAt": "2026-11-15T17:52:19.053Z",
+      "endedAt": "2026-11-15T17:52:20.045Z",
+      "args": [
+        "--prefix",
+        "labs/lab07",
+        "audit",
+        "--json"
+      ],
+      "exitCode": 0,
+      "valid": true,
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      }
+    }
+  },
+  "notes": [
+    "The original baseline exit metadata was blank; unchanged-config verification independently confirmed exit 1.",
+    "The original stylish TXT had mojibake paths; canonical JSON was valid. Redundant TXT/metadata were removed after verification.",
+    "Retained raw baseline/initial-audit JSON bytes are preserved; detailed command outputs are consolidated in irmuun-checks.txt."
+  ],
+  "ciSnapshot": "irmuun-remote-ci.json",
+  "checksOutput": "irmuun-checks.txt"
+}

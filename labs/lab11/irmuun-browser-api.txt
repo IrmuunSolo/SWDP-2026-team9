@@ -1,7 +1,0 @@
-Command: node frontend/test/browser-api.mjs
-Started UTC: 2026-11-15T17:53:34.578Z
-
-PASS REAL API + PostgreSQL: login cookie, LOST, FOUND/GUARD, list/detail/reload, search/upload 501, retry creates no duplicate post, logout revoke. SMTP not tested.
-
-Exit code: 0
-Ended UTC: 2026-11-15T17:53:45.662Z
