@@ -1,4 +1,4 @@
-# Лаборатори 8 — Dockerfile, image ба container
+# Лаборатори 9 — Dockerfile, image ба container
 
 **Баг:** 9 · **Төсөл:** CampusFind / SWDP-2026-team9
 
@@ -13,7 +13,7 @@ CampusFind төслийн Dockerfile-ийг бичиж image бүтээх, conta
 
 ## Л.Ирмүүн — Image, дан web container, layer caching
 
-**Branch:** `lab08/irmuun-image`
+**Branch:** `lab09/irmuun-image`
 
 ### Хийсэн ажил
 
@@ -21,17 +21,17 @@ CampusFind төслийн Dockerfile-ийг бичиж image бүтээх, conta
 2. `backend/src/main.ts`-д API сонсох хаягийг `process.env.HOST ?? '127.0.0.1'` болгосон. Startup log-д мөн энэ хаягийг харуулдаг болгосон. Dockerfile-д `ENV HOST=0.0.0.0` өгч container-ийн сүлжээнээс хандах тохиргоог бэлтгэсэн.
 3. Root `.dockerignore` үүсгэж `.git`, `node_modules`, `dist`, `.env`, log, uploads болон labs хавтсыг build context-оос хассан.
 4. Root `Dockerfile` үүсгэсэн. Node 24 суурь image дээр root болон workspace package manifest-уудыг эхэлж хуулж, `npm ci` ажиллуулсан. Дараа нь source кодыг хуулж, Prisma client үүсгэн contracts → database → API → frontend build хийсэн.
-5. `campusfind:lab08` image бүтээж, command override ашиглан дан frontend container ажиллуулсан. Компьютерийн `15173` портыг container-ийн `5173` порттой холбож, browser дээр `http://localhost:15173` хаягаар web хуудсыг шалгасан.
+5. `campusfind:lab09` image бүтээж, command override ашиглан дан frontend container ажиллуулсан. Компьютерийн `15173` портыг container-ийн `5173` порттой холбож, browser дээр `http://localhost:15173` хаягаар web хуудсыг шалгасан.
 6. `HomePage.tsx`-ийн харагдах бичвэрт түр өөрчлөлт хийж image-ийг дахин build хийсэн. Шинэ image-ээс web container-ийг дахин үүсгэж өөрчлөлтийг шалгасан. Туршилтын дараа бичвэрийг анхны утгад буцааж, image-ийг дахин бүтээн, түр web container-ийг зогсоож устгасан.
 
 ### Гол командууд
 
 ```powershell
-docker build --progress=plain -t campusfind:lab08 .
-docker run -d --name campusfind-lab08-web-run -p 127.0.0.1:15173:5173 campusfind:lab08 npm run dev -w @campusfind/web -- --host 0.0.0.0
-docker logs campusfind-lab08-web-run
-docker stop campusfind-lab08-web-run
-docker rm campusfind-lab08-web-run
+docker build --progress=plain -t campusfind:lab09 .
+docker run -d --name campusfind-lab09-web-run -p 127.0.0.1:15173:5173 campusfind:lab09 npm run dev -w @campusfind/web -- --host 0.0.0.0
+docker logs campusfind-lab09-web-run
+docker stop campusfind-lab09-web-run
+docker rm campusfind-lab09-web-run
 ```
 
 ### Layer caching-ийн ажиглалт
@@ -46,7 +46,7 @@ Dependency суулгах алхмыг source хуулах алхмын өмнө
 
 ### Нотолгоо ба шалгалтын төлөв
 
-![Зураг 2. Docker build дотор contracts, database, API болон frontend build амжилттай дууссан гаралт](../lab08/evidence/02-build-cache.png)
+![Зураг 2. Docker build дотор contracts, database, API болон frontend build амжилттай дууссан гаралт](../lab09/evidence/02-build-cache.png)
 
 Хадгалсан зурагт `RUN npm run build` алхам `DONE 6.4s` болж дууссан нь харагдана. Cache ажиглалтад `npm ci`-ийн `CACHED`, `COPY . .`-ийн `DONE 0.0s` гаралтыг мөн шалгасан.
 
@@ -58,12 +58,12 @@ Dependency суулгах алхмыг source хуулах алхмын өмнө
 
 ## Э.Амарболд — Compose ба өгөгдлийн сан
 
-**Branch:** `lab08/compose-stack`
+**Branch:** `lab09/compose-stack`
 
 ### Хийсэн ажил
 
-1. Ирмүүний PR main салбарт орсны дараа локал main салбараа шинэчилж, `lab08/compose-stack` шинэ салбар үүсгэсэн. Fedora Linux болон Podman (Docker CLI emulation) орчинд `campusfind:lab08` image-ийг дахин build хийж бэлтгэсэн.
-2. `devops/compose.lab08.yaml` тусдаа Compose файл үүсгэж `postgres:17-alpine`, `axllent/mailpit:v1.27`, `api`, `web` гэсэн 4 сервист зориулсан сүлжээ, volume, healthcheck болон орчны хувьсагчдыг тохируулсан.
+1. Ирмүүний PR main салбарт орсны дараа локал main салбараа шинэчилж, `lab09/compose-stack` шинэ салбар үүсгэсэн. Fedora Linux болон Podman (Docker CLI emulation) орчинд `campusfind:lab09` image-ийг дахин build хийж бэлтгэсэн.
+2. `devops/compose.lab09.yaml` тусдаа Compose файл үүсгэж `postgres:17-alpine`, `axllent/mailpit:v1.27`, `api`, `web` гэсэн 4 сервист зориулсан сүлжээ, volume, healthcheck болон орчны хувьсагчдыг тохируулсан.
 3. PostgreSQL болон Mailpit сервисүүдийг Compose-оор эхлүүлж, API image ашиглан `npm run db:deploy` ажиллуулж өгөгдлийн сангийн init migration-ийг амжилттай хийсэн.
 4. Compose stack-ийг бүрэн босгохоос өмнө `podman run` (docker run) ашиглан дан API container ажиллуулж, log болон healthcheck endpoint-уудыг шалгасан.
 5. `docker compose up -d --wait` командаар 4 сервисийг асааж, `postgres`, `mailpit`, `api` нь `Healthy`, `web` нь `Running` төлөвтэй болсныг болон `/api/v1/health/ready` хүсэлтээр `{"data":{"status":"ready"}}` хариу буцааж байгааг баталгаажуулсан.
@@ -71,17 +71,17 @@ Dependency суулгах алхмыг source хуулах алхмын өмнө
 ### Гол командууд
 
 ```bash
-docker build --progress=plain -t campusfind:lab08 .
-docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml config --quiet
-docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml up -d --wait postgres mailpit
-docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml run --rm --no-deps api npm run db:deploy
-docker run -d --name campusfind-lab08-api-run --network campusfind-lab08_default -p 127.0.0.1:13000:3000 -e DATABASE_URL=postgresql://campusfind:local_dev_only@postgres:5432/campusfind?schema=public -e UNIVERSITY_EMAIL_DOMAINS=example.edu -e WEB_ORIGIN=http://localhost:15173 -e SMTP_HOST=mailpit -e SMTP_PORT=1025 -e SMTP_SECURE=false campusfind:lab08
-docker logs campusfind-lab08-api-run
+docker build --progress=plain -t campusfind:lab09 .
+docker compose -p campusfind-lab09 -f devops/compose.lab09.yaml config --quiet
+docker compose -p campusfind-lab09 -f devops/compose.lab09.yaml up -d --wait postgres mailpit
+docker compose -p campusfind-lab09 -f devops/compose.lab09.yaml run --rm --no-deps api npm run db:deploy
+docker run -d --name campusfind-lab09-api-run --network campusfind-lab09_default -p 127.0.0.1:13000:3000 -e DATABASE_URL=postgresql://campusfind:local_dev_only@postgres:5432/campusfind?schema=public -e UNIVERSITY_EMAIL_DOMAINS=example.edu -e WEB_ORIGIN=http://localhost:15173 -e SMTP_HOST=mailpit -e SMTP_PORT=1025 -e SMTP_SECURE=false campusfind:lab09
+docker logs campusfind-lab09-api-run
 curl -4 --fail --retry 10 --retry-connrefused --retry-delay 1 http://localhost:13000/api/v1/health/ready
-docker stop campusfind-lab08-api-run
-docker rm campusfind-lab08-api-run
-docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml up -d --wait
-docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml ps
+docker stop campusfind-lab09-api-run
+docker rm campusfind-lab09-api-run
+docker compose -p campusfind-lab09 -f devops/compose.lab09.yaml up -d --wait
+docker compose -p campusfind-lab09 -f devops/compose.lab09.yaml ps
 curl -4 http://localhost:13000/api/v1/health/ready
 ```
 
@@ -89,7 +89,7 @@ curl -4 http://localhost:13000/api/v1/health/ready
 
 | Алхам / Сервис | Төлөв | Ажигласан үр дүн | Тайлбар |
 | --- | --- | --- | --- |
-| `postgres` | `Healthy` | `pg_isready` healthcheck амжилттай | PostgreSQL 17 өгөгдлийн сан бэлэн болж `lab08_pg` volume-д холбогдсон. |
+| `postgres` | `Healthy` | `pg_isready` healthcheck амжилттай | PostgreSQL 17 өгөгдлийн сан бэлэн болж `lab09_pg` volume-д холбогдсон. |
 | `mailpit` | `Healthy` | Ports `18025->8025`, `1025` ажиллаж байна | И-мэйл туршилтын SMTP сервис бэлэн болсон. |
 | `db:deploy` | `DONE` | Migration-ууд амжилттай ажилласан | DB schema бэлэн болж шаардлагатай хүснэгтүүд үүссэн. |
 | `api` | `Healthy` | `status: ready` | Readiness-ийн SELECT 1 query амжилттай: API нь DB-тэй холбогдсон. SMTP хүргэлтийг Mailpit-ийн захиа болон UI урсгалаар тусад нь баталгаажуулсан. |
@@ -107,17 +107,17 @@ Compose stack-ийн 4 сервис ажиллаж (`postgres`, `mailpit`, `api`
 - Compose stack, DB migration болон healthcheck: гүйцэтгэсэн.
 - `git diff --check`: алдаагүй.
 - `npm run check`, `npm test`: нэгдсэн шалгалтыг 3-р шатанд ажиллуулсан (Г.Нармандахын хэсгийг үзнэ үү).
-- Commit: `eeb7a59` (`lab08/compose-stack`). Г.Нармандахын PR-д багтаж main салбарт нэгтгэгдэнэ.
+- Commit: `eeb7a59` (`lab09/compose-stack`). Г.Нармандахын PR-д багтаж main салбарт нэгтгэгдэнэ.
 
 ## Г.Нармандах — Backend ба нэгдсэн баталгаажуулалт
 
-**Branch:** `lab08/backend-verification` · **Шалгасан commit:** `17a4fae`
+**Branch:** `lab09/backend-verification` · **Шалгасан commit:** `17a4fae`
 
 **Орчин:** macOS (Apple Silicon), Colima 0.10.3, Docker 29.7.2, Docker Compose v5.6.1, Node 24, npm 11
 
 ### Хийсэн ажил
 
-1. Амарболдын `lab08/compose-stack` салбарыг review хийж, Compose файл тайлан болон командуудад заасан `devops/` хавтсанд биш `labs/lab08/devops/` дотор байсныг илрүүлсэн. Ингэснээр `-f devops/compose.lab08.yaml` команд ажиллахгүй, `build.context: ..` нь repo root биш `labs/lab08`-ийг заах байв. Файлыг `devops/compose.lab08.yaml` руу шилжүүлж, Prettier-ээр форматласан.
+1. Амарболдын `lab09/compose-stack` салбарыг review хийж, Compose файл тайлан болон командуудад заасан `devops/` хавтсанд биш `labs/lab09/devops/` дотор байсныг илрүүлсэн. Ингэснээр `-f devops/compose.lab09.yaml` команд ажиллахгүй, `build.context: ..` нь repo root биш `labs/lab09`-ийг заах байв. Файлыг `devops/compose.lab09.yaml` руу шилжүүлж, Prettier-ээр форматласан.
 2. `backend/src/main.ts` нь `process.env.HOST ?? '127.0.0.1'` ашигладаг, Dockerfile болон Compose нь `HOST=0.0.0.0` өгдөг болохыг шалгасан. Backend кодонд нэмэлт засвар шаардлагагүй байв.
 3. Image-ийг дахин build хийж, Compose-оор PostgreSQL, Mailpit, API, web сервисүүдийг асааж, migration хийсэн.
 4. Тусдаа `campusfind_test` өгөгдлийн сан үүсгэж, түүн дээр migration болон integration тест ажиллуулсан.
@@ -128,18 +128,18 @@ Compose stack-ийн 4 сервис ажиллаж (`postgres`, `mailpit`, `api`
 Доорх командуудыг repo root дээр Bash shell-оор ажиллуулна. Тестийн DB-г зөвхөн анхны удаа үүсгэнэ; давтан шалгахдаа `CREATE DATABASE` мөрийг алгасаж migration болон тестээ ажиллуулна. Development DB-г integration тестэд ашиглахгүй.
 
 ```bash
-docker build --progress=plain -t campusfind:lab08 .
-docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml up -d --wait postgres mailpit
-docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml run --rm --no-deps api npm run db:deploy
-docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml up -d --wait
-docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml ps
+docker build --progress=plain -t campusfind:lab09 .
+docker compose -p campusfind-lab09 -f devops/compose.lab09.yaml up -d --wait postgres mailpit
+docker compose -p campusfind-lab09 -f devops/compose.lab09.yaml run --rm --no-deps api npm run db:deploy
+docker compose -p campusfind-lab09 -f devops/compose.lab09.yaml up -d --wait
+docker compose -p campusfind-lab09 -f devops/compose.lab09.yaml ps
 curl -4 http://localhost:13000/api/v1/health/ready
 # Зөвхөн анхны удаа үүсгэнэ; аль хэдийн байгаа DB-г дахин үүсгэхгүй.
-docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml exec -T postgres psql -U campusfind -d postgres -v ON_ERROR_STOP=1 -c "CREATE DATABASE campusfind_test;"
+docker compose -p campusfind-lab09 -f devops/compose.lab09.yaml exec -T postgres psql -U campusfind -d postgres -v ON_ERROR_STOP=1 -c "CREATE DATABASE campusfind_test;"
 T="postgresql://campusfind:local_dev_only@postgres:5432/campusfind_test?schema=public"
-docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml run --rm --no-deps \
+docker compose -p campusfind-lab09 -f devops/compose.lab09.yaml run --rm --no-deps \
   -e DATABASE_URL="$T" api npm run db:deploy
-docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml run --rm --no-deps \
+docker compose -p campusfind-lab09 -f devops/compose.lab09.yaml run --rm --no-deps \
   -e DATABASE_URL="$T" -e TEST_DATABASE_URL="$T" api npm run test:integration
 npm run check && npm test && git diff --check
 ```
@@ -164,10 +164,10 @@ npm run check && npm test && git diff --check
 
 ### Нотолгоо
 
-![Зураг 1. Container-оос ажиллаж буй CampusFind](../lab08/evidence/01-app-running.png)
-![Зураг 3. Compose-ийн 4 сервис ба readiness](../lab08/evidence/03-compose-ready.png)
-![Зураг 4. PostgreSQL integration тест](../lab08/evidence/04-integration-test.png)
-![Зураг 5. Mailpit-д ирсэн баталгаажуулах захиа](../lab08/evidence/05-mailpit-verify.png)
+![Зураг 1. Container-оос ажиллаж буй CampusFind](../lab09/evidence/01-app-running.png)
+![Зураг 3. Compose-ийн 4 сервис ба readiness](../lab09/evidence/03-compose-ready.png)
+![Зураг 4. PostgreSQL integration тест](../lab09/evidence/04-integration-test.png)
+![Зураг 5. Mailpit-д ирсэн баталгаажуулах захиа](../lab09/evidence/05-mailpit-verify.png)
 
 - Commit/PR: #27 (https://github.com/IrmuunSolo/SWDP-2026-team9/pull/27)
 

@@ -6,8 +6,8 @@
 
 ## Суурь ба төлөвлөгөө
 
-- HTTPS fetch-ээр баталгаажуулсан origin/main: `97527f3` (Лаб 8 Compose ба баталгаажуулсан тайлан). Шинэ branch: `feat/w10-11-frontend-posts-search`.
-- Ажил эхлэхэд working tree цэвэр байсан. Хуучин `lab08/irmuun-image` (`519c23a`)-ийг merge/reset хийгээгүй.
+- HTTPS fetch-ээр баталгаажуулсан origin/main: `97527f3` (Лаб 9 Compose ба баталгаажуулсан тайлан). Шинэ branch: `feat/w10-11-frontend-posts-search`.
+- Ажил эхлэхэд working tree цэвэр байсан. Хуучин `lab09/irmuun-image` (`519c23a`)-ийг merge/reset хийгээгүй.
 - `docs/planning/delivery-plan.json` дахь 10–11-р долоо хоногийн хуваарийн дагуу US-04/07 форм, US-05 upload UI, US-09/10 хайлт/шүүлтүүр дээр ажилласан.
 - Дараалал: shared validation → post ID-д тулгуурласан upload → URL query/list/detail → fixture/browser → бодит API/DB → handoff.
 - Суурийн React/TypeScript/Vite, нүүр, header/footer, auth урсгалыг үргэлжлүүлсэн. Нэвтрэлт HttpOnly cookie бүхий opaque session хэвээр. JWT шилжилт хийгээгүй.
@@ -98,14 +98,14 @@ npm.cmd run test -w @campusfind/web
 git diff --check
 ```
 
-## PowerShell — Лаб 8 Compose (локал портоос тусдаа)
+## PowerShell — Лаб 9 Compose (локал портоос тусдаа)
 
 ```powershell
-docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml up -d --build --wait
-docker compose -p campusfind-lab08 -f devops/compose.lab08.yaml ps
+docker compose -p campusfind-lab09 -f devops/compose.lab09.yaml up -d --build --wait
+docker compose -p campusfind-lab09 -f devops/compose.lab09.yaml ps
 ```
 
-Compose web `http://localhost:15173`, API host `http://localhost:13000/api/v1`, Mailpit `http://localhost:18025`. Container хооронд web proxy `http://api:3000`, SMTP `mailpit:1025`, postgres `postgres:5432`; DB host порт нийтлээгүй. Код image-д COPY хийгддэг тул өөрчлөлтөө шалгахдаа rebuild хэрэгтэй. Энэ удаа Compose stack-ийг дахин build хийж шалгаагүй. Өмнөх Compose auth/integration шалгалтын үр дүн `labs/docx/Lab8_report_team9.md`-д бий. Development өгөгдлийг хадгалахын тулд volume устгах команд ашиглахгүй.
+Compose web `http://localhost:15173`, API host `http://localhost:13000/api/v1`, Mailpit `http://localhost:18025`. Container хооронд web proxy `http://api:3000`, SMTP `mailpit:1025`, postgres `postgres:5432`; DB host порт нийтлээгүй. Код image-д COPY хийгддэг тул өөрчлөлтөө шалгахдаа rebuild хэрэгтэй. Энэ удаа Compose stack-ийг дахин build хийж шалгаагүй. Өмнөх Compose auth/integration шалгалтын үр дүн `labs/docx/Lab9_report_team9.md`-д бий. Development өгөгдлийг хадгалахын тулд volume устгах команд ашиглахгүй.
 
 ## PowerShell — тусдаа test DB ба browser QA
 
@@ -167,5 +167,5 @@ Screenshot нотолгоо нь repo-оос гадна QA_OUTPUT_DIR: `desktop.
 - Upload/search/filter амжилттай серверийн интеграц нь planned API/query/storage ба photo discovery contract-оос хамаарна. Реал 501 шалгасан; амжилт, race, partial upload нь fixture.
 - Файлын сонголт/амжилттай upload ID нь тухайн хуудасны санах ойд. Reload/401 redirect хийвэл үлдсэн файл сонголт алдагдана; UI тайлбарлана. localStorage-д файл/token/зохиомол backend хадгалаагүй.
 - Upload серверт хадгалагдсан ч response тасарсан тохиолдлыг client дангаар exactly-once болгох боломжгүй. Idempotency key/dedup contract-ийг Нармандах/Амарболд тохирох шаардлагатай. HTTP амжилт батлагдсан файлыг retry хийхгүй.
-- Шинэ SMTP delivery, шинэ Compose build, remote CI, бусад browser engine болон бодит төхөөрөмж шалгаагүй. Лаб 8-ын өмнөх бодит SMTP/Compose баталгааг тусдаа тайлангаар хадгална.
+- Шинэ SMTP delivery, шинэ Compose build, remote CI, бусад browser engine болон бодит төхөөрөмж шалгаагүй. Лаб 9-ын өмнөх бодит SMTP/Compose баталгааг тусдаа тайлангаар хадгална.
 - Shared App/client өөрчлөлт, response/list/binary санал, CI script холболтыг баг review хийж, backend/query/storage дууссаны дараа нийт story acceptance-ийг батална.
