@@ -11,7 +11,7 @@ export default defineConfig([
       '**/coverage/**',
       '**/uploads/**',
       '**/.tmp/**',
-      'labs/lab11/**',
+      'labs/lab12/**',
     ],
   },
   {
