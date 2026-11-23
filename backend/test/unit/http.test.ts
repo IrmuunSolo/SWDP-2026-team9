@@ -23,7 +23,7 @@ test('HTTP foundation: routes, CSRF, privacy, auth, explicit planned errors', as
   process.env.UNIVERSITY_EMAIL_DOMAINS = 'example.edu';
   const db = {
     session: {
-      findUnique: async ({ where }: any) =>
+      findUnique: async ({ where }: { where: { tokenHash: string } }) =>
         where.tokenHash === hashToken(token)
           ? { user, tokenHash: where.tokenHash, expiresAt: new Date(Date.now() + 60000) }
           : null,
