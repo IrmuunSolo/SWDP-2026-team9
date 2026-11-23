@@ -1,0 +1,4 @@
+Before errors: 15
+Before warnings: 0
+After errors: 0
+After warnings: 0

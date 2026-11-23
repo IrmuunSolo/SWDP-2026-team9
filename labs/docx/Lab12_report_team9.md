@@ -117,18 +117,40 @@ Raw audit: [root initial](../lab12/audit-initial-root.json), [Lab07 initial](../
 | `backend/test/integration/database.test.ts:87:52` | no-explicit-any ×1 |
 | `backend/test/unit/http.test.ts:26:37`            | no-explicit-any ×1 |
 
-## Э.Амарболд — Audit/database/CI — Хүлээгдэж байна
+## Э.Амарболд — Audit/database/CI — Хийгдсэн
 
-Database incoming scan, before-update/after audit, dependency update эсвэл blocker/mitigation/owner/хугацаа, ci.yml-ийн lint алхам, CI run URL/head SHA ба багийн эцсийн дүнг нэмнэ.
+**Branch:** `lab12/amarbold-audit-ci`. **PR:** `[PR холбоос]`.
 
-## Нотолгооны багц
+### Database lint ба нийт ESLint шалгалт
 
-Нотолгоо `labs/lab12/` дотор 12 файлтай. Before/after lint JSON, initial/handoff audit JSON дөрөв, зураг хоёр, нэгтгэсэн шалгалтын TXT, verification JSON, CI snapshot ба raw capture attribute файл үлдээсэн.
+`database` хавтаст ESLint (`eslint database --max-warnings=0`) ажиллуулж `labs/lab12/amarbold-lint-incoming-database.txt` файлд хадгалахад exit code `0` гарч, database давхаргад lint алдаа/warning илрээгүй. Нармандахын backend засвар `main` дээр merge болсны дараа `npm run lint` ажиллуулж нийт төслийн хэмжээнд `0` error / `0` warning баталгаажуулсан.
 
-Доорх хоёр зураг нь хадгалсан ESLint JSON-ийг үзүүлсэн тайлангийн screenshot; анхны PowerShell screenshot биш. Viewer HTML болон хамаарал багатай UI screenshot-уудыг тусад нь хадгалахгүй.
+### Dependency audit ба шинэчлэлт
 
-![ESLint baseline — нийт 15 error, frontend 11](../lab12/01-lint-before.png)
+ESLint tooling суусан төлөв дээр update хийхийн өмнөх `npm audit` scan авч `labs/lab12/audit-before-update-root.json`, `labs/lab12/audit-before-update-lab07.json`, `labs/lab12/audit-before-update-root.txt`, `labs/lab12/audit-before-update-meta.txt`-д хадгалсан. Before-update scan-аар root дээр **High 7, Medium 7** (нийт 14 vulnerability node), `labs/lab07` дээр **0** гарсан.
 
-![Ирмүүний дараа — frontend 0, backend 4](../lab12/irmuun-lint-after-frontend.png)
+`npm explain` болон `npm ls` ашиглан хамаарлын гинжийг шалгаж, compatible patch/minor хувилбаруудыг эзэмшигч manifest дээр шинэчилсэн (`npm audit fix --force` ашиглаагүй; байгаа `deepmerge-ts` override-ийг хэвээр хадгалсан):
 
-Дараагийн гишүүний дэлгэрэнгүй алхам, Ирмүүний хийсэн төлөвийг repo-оос тусдаа Лаб 12 хийх зааврын **4.8. Ирмүүний гүйцэтгэсэн ажил** хэсэгт нэгтгэсэн. Бүх лаборатори backend remediation, dependency update, CI lint ба эцсийн шалгалтын дараа бүрэн дуусна.
+- **`@nestjs/platform-express` (`11.2.7` → `11.2.11`, `@campusfind/api`):** Non-major patch шинэчлэлт хийж `multer` (`GHSA-q7qp-rjg7-q26m`) болон `@nestjs/platform-express`-ийн дотоод `express` (`5.2.1`) гинжийг шинэчилсэн.
+- **`typescript-eslint` (`8.72.2` → `8.73.0`, root `devDependencies`):** Non-major шинэчлэлт хийж `@typescript-eslint/*` болон `minimatch` (`GHSA-g3hv-75wg-m249`) гинжид үзүүлэх нөлөөг шалгасан.
+- **Үлдсэн High/Medium эмзэг байдал (`prisma` `6.19.3` / `@prisma/config` / `effect` `GHSA-7589-6fvf-x4pw`, `zod` `3.25.76` `GHSA-mrhx-c7xc-m3w5`, болон `body-parser` `GHSA-27r3-jxmh-p828`):** Major migration/schema/contract эрсдэлтэй тул энэ лабораторид хүчээр шинэчлээгүй бөгөөд доорх хүснэгт болон шийдвэрийн хэсэгт шалтгаан, mitigation, owner, хугацааг тэмдэглэсэн.
+
+Шинэчлэлтийн дараа `npm ci`, `npm --prefix labs/lab07 ci`, `npm run db:generate`, `npm run lint`, `npm run check`, `npm test`, `npm run test -w @campusfind/web` амжилттай давсан (API unit 25/25, Lab 07 15/15, Web 4/4, Prettier болон 34 API contract шалгалт ногоон).
+
+### CI workflow (`ci.yml`) ба нотолгоо
+
+`.github/workflows/ci.yml` файл дахь `CampusFind checks` job-ийн Лаб 7-ийн **Install** ба **Test** алхмын хооронд root `npm ci` болон `npm run lint` (`working-directory: .`) алхмуудыг нэмсэн. `on: [push, pull_request]`, Node `24`, Лаб 7-ийн алхмууд болон `.github/workflows/foundation.yml`-ийг хэвээр хадгалсан; fail нуух тохиргоо (`continue-on-error`, `|| true` гэх мэт) нэмээгүй.
+
+Эцсийн before/after lint болон audit scan-ийг авч `labs/lab12/lint-after-all.json`, `labs/lab12/lint-after-all.txt`, `labs/lab12/lint-comparison.txt`, `labs/lab12/final-scan-meta.txt`, `labs/lab12/audit-after-root.json`, `labs/lab12/audit-after-lab07.json`-д хадгалсан. PR дээрх CI run URL болон шалгасан head SHA: `[CI run URL]`, SHA: `[head SHA]`.
+
+![Audit өмнө](../lab12/03-audit-before.png)
+
+![Lint дараа — бүх төсөл](../lab12/04-lint-after-all.png)
+
+![Audit дараа](../lab12/05-audit-after.png)
+
+![CI lint амжилттай](../lab12/06-ci-lint-success.png)
+
+![CI Foundation амжилттай](../lab12/07-ci-foundation-success.png)
+
+Нэмэлт нотолгоо: [database incoming lint](../lab12/amarbold-lint-incoming-database.txt), [audit before root JSON](../lab12/audit-before-update-root.json), [audit before lab07 JSON](../lab12/audit-before-update-lab07.json), [lint after all JSON](../lab12/lint-after-all.json), [lint comparison](../lab12/lint-comparison.txt), [final scan meta](../lab12/final-scan-meta.txt), [audit after root JSON](../lab12/audit-after-root.json), [audit after lab07 JSON](../lab12/audit-after-lab07.json).

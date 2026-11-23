@@ -27,6 +27,14 @@ jobs:
       - name: Install
         run: npm ci
 
+      - name: Install root dependencies for ESLint
+        working-directory: .
+        run: npm ci
+
+      - name: ESLint - whole project
+        working-directory: .
+        run: npm run lint
+
       - name: Test
         run: |
           npm run check
