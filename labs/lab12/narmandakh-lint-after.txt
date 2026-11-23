@@ -1,0 +1,6 @@
+exit: 0
+
+> campusfind@0.1.0 lint
+> eslint . --max-warnings=0
+
+root lint exit: 0

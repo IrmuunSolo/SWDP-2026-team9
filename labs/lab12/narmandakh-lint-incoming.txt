@@ -1,0 +1,18 @@
+
+> campusfind@0.1.0 lint
+> eslint . --max-warnings=0
+
+
+/Users/narmandah/Uni/process/SWDP-2026-team9/backend/src/common/http.ts
+  6:47  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  6:52  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/narmandah/Uni/process/SWDP-2026-team9/backend/test/integration/database.test.ts
+  87:52  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/narmandah/Uni/process/SWDP-2026-team9/backend/test/unit/http.test.ts
+  26:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+✖ 4 problems (4 errors, 0 warnings)
+
+exit: 1

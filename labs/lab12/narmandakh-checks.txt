@@ -1,0 +1,163 @@
+$ npm run check
+
+> campusfind@0.1.0 check
+> npm run build && npm run format:check && npm run contract:check && npm run check:plan && npm run check:layout
+
+
+> campusfind@0.1.0 build
+> npm run build -w @campusfind/contracts && npm run build -w @campusfind/database && npm run build -w @campusfind/api && npm run build -w @campusfind/web
+
+
+> @campusfind/contracts@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @campusfind/database@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @campusfind/api@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @campusfind/web@0.1.0 build
+> tsc --noEmit && vite build
+
+vite v7.3.7 building client environment for production...
+transforming...
+✓ 64 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.40 kB │ gzip:  0.27 kB
+dist/assets/index-BWFLRVP0.css    7.95 kB │ gzip:  2.34 kB
+dist/assets/index-zIHNrULM.js   319.30 kB │ gzip: 90.70 kB
+✓ built in 348ms
+
+> campusfind@0.1.0 format:check
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> campusfind@0.1.0 contract:check
+> node scripts/generate-contract.mjs --check
+
+34 API гэрээ шалгалаа
+
+> campusfind@0.1.0 check:plan
+> node scripts/check-plan.mjs
+
+Active plan: weeks 8–15; 15 stories / 70 SP; layer owners match; no dependency cycles or duplicate routes.
+
+> campusfind@0.1.0 check:layout
+> node scripts/check-layout.mjs
+
+Layer boundaries: frontend → contracts; backend → database/contracts; database → contracts; no cross-layer relative imports.
+exit: 0
+
+$ npm test
+
+> campusfind@0.1.0 test
+> npm run build -w @campusfind/contracts && npm run build -w @campusfind/database && npm test -w @campusfind/api && npm --prefix labs/lab07 test
+
+
+> @campusfind/contracts@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @campusfind/database@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @campusfind/api@0.1.0 test
+> npm run build && node --test dist/test/unit/*.test.js
+
+
+> @campusfind/api@0.1.0 build
+> tsc -p tsconfig.json
+
+▶ HTTP foundation: routes, CSRF, privacy, auth, explicit planned errors
+  ✔ liveness works without database or authentication (15.375542ms)
+  ✔ register route validates rather than falling into reservation (5.643ms)
+  ✔ mutation rejects missing CSRF header (0.730333ms)
+  ✔ foreign origin is rejected even with header (0.567458ms)
+  ✔ posts need authentication (0.642958ms)
+  ✔ me never leaks full code, email or hash (0.827584ms)
+  ✔ planned feature returns 501 instead of fake success (0.954708ms)
+  ✔ data-layer search seam becomes HTTP 501 without querying DB (0.966ms)
+  ✔ data-layer filter seam becomes HTTP 501 without leaking internal errors (0.819791ms)
+  ✔ nonadmin cannot enter admin reservation (0.920375ms)
+  ✔ unknown authenticated route returns uniform 404 (0.6825ms)
+✔ HTTP foundation: routes, CSRF, privacy, auth, explicit planned errors (50.577417ms)
+✔ passwords are salted, verify correctly and never stored in plain text (94.067458ms)
+✔ opaque tokens have 256 bits and database fingerprint differs (0.313542ms)
+✔ only exact university domains are allowed (0.056333ms)
+✔ public projection masks student identity (0.045667ms)
+✔ only actual chat participants may read messages (0.0495ms)
+✔ one person confirming twice does not close handover (0.330667ms)
+✔ two distinct confirmations complete handover (0.037958ms)
+✔ outsider cannot confirm; finder cannot be owner (0.084708ms)
+✔ LOST accepts only its public fields (0.925125ms)
+✔ GUARD requires a building; MEET rejects a guard building (0.271792ms)
+✔ input cannot promote role or set verification (0.183875ms)
+✔ list is bounded and dates are ordered (0.253375ms)
+✔ API ids and method/path pairs are unique (0.046292ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 187.000209
+
+> campusfind-lab07@1.0.0 test
+> node --test
+
+✔ New found post is active (0.483417ms)
+✔ Blank title is rejected (0.142958ms)
+✔ Search finds title (0.595417ms)
+✔ Search finds description (0.046042ms)
+✔ Search ignores case and surrounding spaces (0.045417ms)
+✔ Closed posts are excluded from search (0.066458ms)
+✔ Only finder can assign owner (0.0465ms)
+✔ Finder cannot become owner of the same post (0.051375ms)
+✔ Assigned owner cannot be replaced (0.055542ms)
+✔ Confirmation requires assigned owner (0.078458ms)
+✔ Unrelated user cannot confirm handover (0.0625ms)
+✔ One confirmation keeps post active (0.032125ms)
+✔ Two confirmations close post (0.034542ms)
+✔ Owner may confirm before finder (0.024375ms)
+✔ Repeated finder confirmation does not close post (0.023958ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 40.2635
+exit: 0
+
+$ npm run test -w @campusfind/web
+
+> @campusfind/web@0.1.0 test
+> node --test test/posts.test.mjs
+
+✔ shared validation: trim, required fields, LOST/FOUND separation, GUARD and future local date (1.802708ms)
+✔ query: canonical empty parameters, pagination, combined filters, invalid range/page (0.918209ms)
+✔ photo limits: MIME, strictly under 5MB and total count (0.066083ms)
+✔ transport: cookie/CSRF, multipart browser boundary, binary, errors/expired session and abort (8.271458ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 186.165167
+exit: 0
+
+$ git diff --check
+exit: 0
+

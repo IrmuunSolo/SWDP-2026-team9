@@ -3,7 +3,7 @@ import { Prisma } from '@campusfind/database';
 import { randomUUID } from 'node:crypto';
 import type { Request, Response } from 'express';
 import { z } from '@campusfind/contracts';
-export function parse<T>(schema: z.ZodType<T, any, any>, input: unknown): T {
+export function parse<T>(schema: z.ZodType<T, z.ZodTypeDef, unknown>, input: unknown): T {
   const result = schema.safeParse(input);
   if (!result.success)
     throw new HttpException(

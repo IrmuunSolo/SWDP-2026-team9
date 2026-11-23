@@ -84,7 +84,7 @@ test('PostgreSQL: register → verify → login → posts → logout, lockout an
     assert(!JSON.stringify(value).includes(user.studentCode));
     const list = await fetch(base + '/posts', { headers: { Cookie: cookie } });
     assert.equal(list.status, 200);
-    assert((await list.json()).data.items.some((p: any) => p.id === postId));
+    assert((await list.json()).data.items.some((p: { id: string }) => p.id === postId));
     await db.user.update({ where: { id: user.id }, data: { blockedAt: new Date() } });
     assert.equal((await fetch(base + '/users/me', { headers: { Cookie: cookie } })).status, 403);
     await db.user.update({ where: { id: user.id }, data: { blockedAt: null } });
