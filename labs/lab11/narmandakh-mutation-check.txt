@@ -1,0 +1,16 @@
+# Mutation шалгалт: production кодыг түр эвдэж, шинэ тест алдааг барьж байгаа эсэхийг шалгав. Шалгалтын дараа код анхны байдалдаа буцсан.
+
+## sed 's/Date.now() + 600000/Date.now() + 60000/'
+ℹ fail 1
+ℹ pass 31
+✖ 3. Хил: 5 дахь буруу оролдлого 429 LOGIN_LOCKED, 10 минут түгжинэ (74.105085ms)
+
+## sed 's/failed.failedAttempts >= 5 ? 429/failed.failedAttempts >= 6 ? 429/'
+ℹ fail 1
+ℹ pass 31
+✖ 3. Хил: 5 дахь буруу оролдлого 429 LOGIN_LOCKED, 10 минут түгжинэ (50.613224ms)
+
+## sed 's/if (user.lockedUntil \&\& user.lockedUntil > new Date())/if (false)/'
+ℹ fail 1
+ℹ pass 31
+✖ 5. Mock: түгжигдсэн хэрэглэгч зөв нууц үгтэй ч 429; DB-д бичихгүй, session үүсгэхгүй (45.60592ms)
