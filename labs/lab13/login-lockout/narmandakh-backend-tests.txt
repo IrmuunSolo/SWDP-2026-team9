@@ -1,0 +1,60 @@
+# Лаб 13 — Г.Нармандах: CampusFind backend-д нэгтгэсэн түгжих бодлогын тест
+# Огноо: 2026-11-26 23:19 (UTC+8), Node v24.22.3, base main 53756f7
+# Лаб 11-ийн auth-login.test.ts-ийг нэмж ажиллуулж, AuthService.login-ийн ажиллагаа өөрчлөгдөөгүйг шалгав.
+
+$ npm test -w @campusfind/api
+✔ 1. Зөв нууц үг: session үүсгэж, тоолуурыг тэглэж, нийтийн мэдээлэл буцаана (104.152914ms)
+✔ 2. Буруу нууц үг (1 дэх): 401 INVALID_CREDENTIALS, тоолуур 1-ээр нэмэгдэнэ (51.109787ms)
+✔ 3. Хил: 5 дахь буруу оролдлого 429 LOGIN_LOCKED, 10 минут түгжинэ (46.380586ms)
+✔ 4. Хил: бүртгэлгүй и-мэйл буруу нууц үгтэй ижил 401 өгч, account байгаа эсэхийг задлахгүй (84.783672ms)
+✔ 5. Mock: түгжигдсэн хэрэглэгч зөв нууц үгтэй ч 429; DB-д бичихгүй, session үүсгэхгүй (0.680367ms)
+✔ 6. Хил: түгжээ дууссаны дараах буруу оролдлого тоолуурыг 1-ээс эхлүүлнэ (41.89168ms)
+✔ 7. Mock: и-мэйлийг normalize хийж хайна; баталгаажаагүй бүртгэл 403 (43.775339ms)
+▶ HTTP foundation: routes, CSRF, privacy, auth, explicit planned errors
+  ✔ liveness works without database or authentication (46.244568ms)
+  ✔ register route validates rather than falling into reservation (27.609909ms)
+  ✔ mutation rejects missing CSRF header (4.969069ms)
+  ✔ foreign origin is rejected even with header (4.071156ms)
+  ✔ posts need authentication (3.649312ms)
+  ✔ me never leaks full code, email or hash (5.065968ms)
+  ✔ planned feature returns 501 instead of fake success (5.360224ms)
+  ✔ data-layer search seam becomes HTTP 501 without querying DB (5.43911ms)
+  ✔ data-layer filter seam becomes HTTP 501 without leaking internal errors (4.645011ms)
+  ✔ nonadmin cannot enter admin reservation (4.040664ms)
+  ✔ unknown authenticated route returns uniform 404 (3.008721ms)
+✔ HTTP foundation: routes, CSRF, privacy, auth, explicit planned errors (197.992173ms)
+✔ 1. Бодлого: 5 буруу оролдлого, 10 минутын түгжээ (US-02) (0.935414ms)
+✔ 2. Хэвийн: 1–4 дэх буруу оролдлого түгжихгүй, үлдсэн оролдлогыг буцаана (0.828019ms)
+✔ 3. Хил: 5 дахь (болон түүнээс хойших) буруу оролдлого яг 10 минут түгжинэ (0.212387ms)
+✔ 4. Хил: яг lockedUntil агшинд түгжээ дууссан, 1 ms өмнө түгжигдсэн хэвээр (0.150089ms)
+✔ 5. Хил: түгжээгүй хэрэглэгч түгжигдээгүй, түгжээ дуусаагүй ч биш (0.109876ms)
+✔ 6. Review №1 fail closed: зөвхөн boolean true нэвтрүүлнэ, boolean биш утга алдаа шиднэ (0.490561ms)
+✔ 7. Review №2 хил: production-ий loginSchema нууц үгийг 128 тэмдэгтээр хязгаарлана (2.07236ms)
+✔ 8. Review №3 оролт: тоолуур эерэг бүхэл тоо биш бол TypeError (0.178847ms)
+✔ passwords are salted, verify correctly and never stored in plain text (196.177416ms)
+✔ opaque tokens have 256 bits and database fingerprint differs (1.435826ms)
+✔ only exact university domains are allowed (0.234635ms)
+✔ public projection masks student identity (0.482796ms)
+✔ only actual chat participants may read messages (0.515802ms)
+✔ one person confirming twice does not close handover (0.893526ms)
+✔ two distinct confirmations complete handover (0.135944ms)
+✔ outsider cannot confirm; finder cannot be owner (0.262803ms)
+✔ LOST accepts only its public fields (3.381116ms)
+✔ GUARD requires a building; MEET rejects a guard building (1.097158ms)
+✔ input cannot promote role or set verification (0.462664ms)
+✔ list is bounded and dates are ordered (1.167195ms)
+✔ API ids and method/path pairs are unique (0.170736ms)
+ℹ tests 40
+ℹ suites 0
+ℹ pass 40
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1534.587933
+
+$ npm run lint
+exit 0
+
+$ npm run check
+exit 0

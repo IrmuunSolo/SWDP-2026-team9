@@ -10,7 +10,7 @@
 
 Тодорхой, контексттэй prompt бичих; AI-ийн санал болгосон кодыг шүүмжлэлтэй review хийх; AI ашигласнаа ил тод баримтжуулах. Гишүүн бүр CampusFind-ийн нэг жижиг функцийг AI-аар бичүүлж, тодорхойгүй ба тодорхой prompt-ийн хариуг харьцуулаад, эцсийн кодыг review хийж тестээр баталгаажуулна.
 
-Функц бүр `labs/lab13/` дотор dependency-гүй ESM модуль. Production код (`backend/`, `frontend/`)-д өөрчлөлт хийгээгүй. Тест: `npm --prefix labs/lab13 test`. AI-ийн анхны хариуг гишүүн бүрийн `ai-log.md`-д өөрчлөлтгүй хадгалсан.
+AI-ийн анхны хариу, харьцуулалт, review-ийг гишүүн бүрийн `labs/lab13/<функц>/ai-log.md`-д өөрчлөлтгүй хадгална. Review хийсэн эцсийн кодыг тусдаа жишээ хэвээр үлдээлгүй CampusFind-ийн үндсэн кодонд (`backend/`, `frontend/`, `packages/contracts/`) нэгтгэж, тестийг төслийн тестийн багцад (`npm test`) нэмнэ. Ингэснээр тест CI дээр PR бүрд ажиллана.
 
 | Гишүүн | Функц | Story | Хавтас |
 | --- | --- | --- | --- |
@@ -65,7 +65,30 @@
 | `npx --no-install eslint labs/lab13 --max-warnings=0` | exit 0 |
 | `git diff --check` | PASS |
 
-Эцсийн код: [loginLockout.js](../lab13/login-lockout/loginLockout.js), тест: [loginLockout.test.js](../lab13/login-lockout/loginLockout.test.js).
+Дээрх 9 тестийг review хийх үед тусдаа модуль дээр ажиллуулсан. Дараа нь эцсийн кодыг CampusFind-д нэгтгэсэн (доорх хэсэг).
+
+### CampusFind-д нэгтгэсэн
+
+**Branch:** `lab13/narmandakh-backend-integration` · **Огноо:** 2026-11-26
+
+| Файл | Өөрчлөлт |
+| --- | --- |
+| `backend/src/modules/auth/login-lockout.ts` | Шинэ. Бодлогын тогтмол (`5`, `10 минут`) ба цэвэр функцууд: `isLocked`, `lockExpired`, `failureOutcome`, `passwordAccepted` (review №1 fail closed) |
+| `backend/src/modules/auth/auth.service.ts` | `login()` дээрх шууд бичсэн `5`, `600000` ба түгжээний нөхцөлийг дээрх функцээр сольсон. Тоолуурыг Prisma-гийн atomic `increment`-ээр нэмсээр байна |
+| `backend/test/unit/login-lockout.test.ts` | Шинэ. 8 тест: хэвийн 1–4 оролдлого, 5 дахь түгжээ, `lockedUntil`-ийн хил, review №1 (boolean биш үр дүн), review №2 (`loginSchema` 128/129/1,000,000 тэмдэгт), буруу оролт |
+| `labs/lab13/login-lockout/loginLockout.js`, `.test.js` | Тусдаа жишээ файлуудыг устгасан. AI-ийн анхны код `ai-log.md`-д хэвээр |
+
+AI-ийн state буцаадаг загварыг (уншаад, +1 хийгээд, бичих) шууд хуулаагүй. Учир нь зэрэг ирсэн хүсэлтүүд тоолуурыг дарж бичих race condition үүсгэнэ (тодорхойгүй prompt-ийн хариу өөрөө үүнийг анхааруулсан). Review №2-ын нууц үгийн урт production-д `loginSchema`-аар аль хэдийн хязгаарлагдсан тул тестээр баталгаажуулав.
+
+Нэгтгэлийн дараа API-ийн нэвтрэлтийн ажиллагаа өөрчлөгдөөгүйг Лаб 11-ийн `AuthService.login`-ийн 7 тест (`backend/test/unit/auth-login.test.ts`)-ээр шалгасан: бүгд давсан.
+
+| Шалгалт | Үр дүн |
+| --- | --- |
+| `npm test -w @campusfind/api` (Лаб 11-ийн тесттэй хамт) | 40/40 |
+| `npm run lint` | exit 0 |
+| `npm run check` | exit 0 |
+
+[Тестийн гаралт](../lab13/login-lockout/narmandakh-backend-tests.txt)
 
 ### AI ашиглалтын ил тод байдал
 
