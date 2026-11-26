@@ -12,6 +12,7 @@ import {
   normalizeEmail,
 } from '../../common/security';
 import { readConfig } from '../../config';
+import { failureOutcome, isLocked, lockExpired, passwordAccepted } from './login-lockout';
 import { loginSchema, registerSchema, z } from '@campusfind/contracts';
 import type { User } from '@campusfind/database';
 export const publicUser = (u: User) => ({
@@ -104,10 +105,10 @@ export class AuthService {
       await hashPassword(input.password);
       fail(401, 'INVALID_CREDENTIALS', 'И-мэйл эсвэл нууц үг буруу');
     }
-    if (user.lockedUntil && user.lockedUntil > new Date())
-      fail(429, 'LOGIN_LOCKED', '10 минутын дараа дахин оролдоно уу');
-    if (!(await checkPassword(input.password, user.passwordHash))) {
-      const reset = !!user.lockedUntil && user.lockedUntil <= new Date();
+    const now = new Date();
+    if (isLocked(user, now)) fail(429, 'LOGIN_LOCKED', '10 минутын дараа дахин оролдоно уу');
+    if (!passwordAccepted(await checkPassword(input.password, user.passwordHash))) {
+      const reset = lockExpired(user, now);
       const failed = await this.db.user.update({
         where: { id: user.id },
         data: {
@@ -115,14 +116,15 @@ export class AuthService {
           ...(reset ? { lockedUntil: null } : {}),
         },
       });
-      if (failed.failedAttempts >= 5)
+      const outcome = failureOutcome(failed.failedAttempts, now);
+      if (outcome.locked)
         await this.db.user.update({
           where: { id: user.id },
-          data: { lockedUntil: new Date(Date.now() + 600000) },
+          data: { lockedUntil: outcome.lockedUntil },
         });
       fail(
-        failed.failedAttempts >= 5 ? 429 : 401,
-        failed.failedAttempts >= 5 ? 'LOGIN_LOCKED' : 'INVALID_CREDENTIALS',
+        outcome.locked ? 429 : 401,
+        outcome.locked ? 'LOGIN_LOCKED' : 'INVALID_CREDENTIALS',
         'И-мэйл эсвэл нууц үг буруу',
       );
     }

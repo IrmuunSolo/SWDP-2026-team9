@@ -667,3 +667,13 @@ node --test loginLockout.test.js
 - JSDoc-ийг Монгол болгож, `@typedef`-ээр давхардлыг багасгасан.
 - AI-ийн 5 тестийн шалгалтыг өөрчлөөгүй (зөвхөн формат болон тайлбарыг Монгол болгосон), review-ийн дагуу 4 тест нэмсэн: нийт 9.
 - AI-ийн хариунд байсан `package.json`-ийг ашиглаагүй. Багийн нийтлэг `labs/lab13/package.json` (Node `>=24 <25`) ашигласан.
+
+## 6. CampusFind-д нэгтгэсэн (2026-11-26)
+
+Review хийсэн бодлогыг тусдаа жишээ модуль хэвээр үлдээлгүй, CampusFind-ийн backend-д нэгтгэсэн.
+
+- `backend/src/modules/auth/login-lockout.ts`: `MAX_FAILED_ATTEMPTS`, `LOCK_DURATION_MS`, `isLocked`, `lockExpired`, `failureOutcome`, `passwordAccepted` (review №1-ийн fail-closed шалгалт).
+- `backend/src/modules/auth/auth.service.ts`: `login()` дээрх `5`, `600000` гэх мэт шууд бичсэн утга, түгжээний нөхцөлийг дээрх функцээр сольсон. Тоолуурыг Prisma-гийн atomic `increment`-ээр нэмсээр байна. AI-ийн тодорхойгүй prompt-ийн хариунд байсан read → +1 → write race condition-ийг оруулахгүйн тулд AI-ийн state буцаадаг загварыг шууд хуулаагүй.
+- Review №2 (нууц үгийн урт): production-д `loginSchema` нууц үгийг 128 тэмдэгтээр аль хэдийн хязгаарладаг тул service-д давхар шалгалт нэмээгүй, тестээр баталгаажуулсан.
+- Тест: `backend/test/unit/login-lockout.test.ts` (8 тест). AI-ийн 1-р (зөв нууц үг тоолуурыг тэглэх) ба 5-р (түгжигдсэн үед нууц үг шалгахгүй) тестийн шалгалтыг `AuthService.login` түвшинд Лаб 11-ийн `backend/test/unit/auth-login.test.ts` хамарна.
+- `labs/lab13/login-lockout/loginLockout.js`, `loginLockout.test.js` тусдаа жишээ файлуудыг устгасан. AI-ийн анхны код дээрх хэсгүүдэд өөрчлөлтгүй хадгалагдсан хэвээр.
