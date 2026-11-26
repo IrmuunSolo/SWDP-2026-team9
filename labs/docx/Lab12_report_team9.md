@@ -8,7 +8,7 @@
 
 ## Зорилго ба хамрах хүрээ
 
-ESLint-ээр кодын зөрчил илрүүлж засах, npm audit-аар dependency-ийн мэдэгдэж буй эмзэг байдлыг ангилах, lint-ийг CI-д нэгтгэх зорилготой. Одоогийн тайланд Ирмүүний frontend ба tooling шат хийгдсэн; Нармандах, Амарболдын гүйцэтгэлийг өөрсдийн ээлжид нэмнэ.
+ESLint-ээр кодын зөрчил илрүүлж засах, npm audit-аар dependency-ийн мэдэгдэж буй эмзэг байдлыг ангилах, lint-ийг CI-д нэгтгэх зорилготой. Ирмүүн frontend ба tooling, Нармандах backend/shared засвар, Амарболд audit/database/CI шатыг гүйцэтгэсэн.
 
 Lint хүрээ: frontend source/test/Vite config, backend source/test/scripts, database source, contracts, root scripts/config, Лаб 7-ын JS. Dependency, build output, coverage, uploads, .tmp, Лаб 12-ийн нотолгоог lint-ээс хассан. Дүрэм унтраах буюу ignore хүрээ тэлж зөрчлийг нуугаагүй.
 
@@ -107,15 +107,58 @@ Raw audit: [root initial](../lab12/audit-initial-root.json), [Lab07 initial](../
 
 Кодын `a5fa9cc` дээр [CampusFind CI](https://github.com/IrmuunSolo/SWDP-2026-team9/actions/runs/43744475007), [Foundation](https://github.com/IrmuunSolo/SWDP-2026-team9/actions/runs/43744474941) PASS. Тайлангийн `3e2c2bf` дээр [CampusFind CI](https://github.com/IrmuunSolo/SWDP-2026-team9/actions/runs/43744748988), [Foundation](https://github.com/IrmuunSolo/SWDP-2026-team9/actions/runs/43744748929) мөн PASS. [Кодын commit-ийн run/job/step snapshot](../lab12/irmuun-remote-ci.json). Цэвэрлэгээний хамгийн сүүлийн commit-ийн CI-г PR-ийн Checks-ээр батална. CI-д lint нэмэх ажил Амарболдын ээлжид тул CI ногоон нь backend-ийн lint finding арилсан гэсэн үг биш.
 
-## Г.Нармандах — Backend/shared — Хүлээгдэж байна
+## Г.Нармандах — Backend/shared — Хийгдсэн
 
-Өөрийн branch/PR, засвар, before/after, команд/exit ба тестийн дүнг нэмнэ.
+**Branch:** `lab12/narmandakh-static-fixes` · **Суурь:** main `7fe1252` · **PR:** [#31](https://github.com/IrmuunSolo/SWDP-2026-team9/pull/31) (merge `ed8bc0b`), review: Э.Амарболд
 
-| Файл:мөр:багана                                   | Үлдэгдэл           |
-| ------------------------------------------------- | ------------------ |
-| `backend/src/common/http.ts:6:47`, `:6:52`        | no-explicit-any ×2 |
-| `backend/test/integration/database.test.ts:87:52` | no-explicit-any ×1 |
-| `backend/test/unit/http.test.ts:26:37`            | no-explicit-any ×1 |
+### Ирсэн төлөв
+
+Ирмүүний PR #29 main-д нэгтгэгдсэний дараа main-аа шинэчилж root lint ажиллуулахад 57 файлд **4 error / 0 warning**, exit 1 гарсан нь Ирмүүний үлдээсэн жагсаалттай яг таарсан. Бүгд backend-ийн `@typescript-eslint/no-explicit-any` дүрэм. Contracts, database, root scripts, Лаб 7-д finding гараагүй. [Ирсэн төлөв](../lab12/narmandakh-lint-incoming.txt).
+
+### Засвар
+
+| №   | Before файл:мөр:багана                            | Rule               | Шалтгаан ба засвар                                                                                                                                                                                                                                                                                 |
+| --- | ------------------------------------------------- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1–2 | `backend/src/common/http.ts:6:47`, `:6:52`        | no-explicit-any ×2 | Бүх controller-ийн оролтыг шалгадаг `parse()`-ийн схемийн төрөл `z.ZodType<T, any, any>` байсан нь def болон input төрлийн шалгалтыг бүрэн унтрааж байв. `z.ZodType<T, z.ZodTypeDef, unknown>` болгосон. Input `unknown` тул `z.coerce` зэрэг input/output өөр схемийг хүлээн авч, гаралтын `T` зөв гарна. Validation болон 400 `VALIDATION_ERROR` хариу өөрчлөгдөөгүй. |
+| 3   | `backend/test/integration/database.test.ts:87:52` | no-explicit-any ×1 | Зарлалын жагсаалтаас үүсгэсэн зарлалыг хайхдаа `(p: any)` хэрэглэж байсныг тестийн ашигладаг цорын ганц талбараар `(p: { id: string })` болгосон.                                                                                                                                                  |
+| 4   | `backend/test/unit/http.test.ts:26:37`            | no-explicit-any ×1 | Session mock-ийн `findUnique({ where }: any)`-ийг Prisma-гийн дуудлагын хэлбэрээр `{ where: { tokenHash: string } }` болгосон.                                                                                                                                                                      |
+
+Production кодын өөрчлөлт нь зөвхөн төрлийн тодорхойлолт. Validation логик, API contract, response, session/CSRF хамгаалалт өөрчлөгдөөгүй. Дүрэм унтраагаагүй, `eslint-disable` болон ignore нэмээгүй. Diff-ээр public response-д бүтэн оюутны код, hash, token нэмэгдээгүй, actor session-ээс авагдсан хэвээр болохыг шалгасан.
+
+### Lint: өмнө / дараа
+
+| Хүрээ                                 | Өмнө error | Дараа error | Warning | Exit |
+| ------------------------------------- | ---------- | ----------- | ------- | ---- |
+| Backend + contracts + scripts + Лаб 7 | 4          | 0           | 0       | 0    |
+| Бүх JS/TS (root `npm run lint`)       | 4          | 0           | 0       | 0    |
+
+Database-д lint finding 0 тул Амарболдод шилжүүлэх database lint үлдэгдэл байхгүй. [Засварын дараах lint](../lab12/narmandakh-lint-after.txt).
+
+### Шалгалт
+
+| Шалгалт                           | Үр дүн                                                                    |
+| --------------------------------- | ------------------------------------------------------------------------- |
+| `npm run check`                   | PASS: build/typecheck, Prettier, 34 API гэрээ, plan, layout               |
+| `npm test`                        | API unit 25/25, Лаб 7 15/15                                               |
+| `npm run test -w @campusfind/web` | 4/4                                                                       |
+| `git diff --check`                | PASS                                                                      |
+| PostgreSQL integration            | Засвар нь зөвхөн төрлийн тэмдэглэгээ тул PR-ийн Foundation CI-аар батална |
+
+[Команд ба exit код](../lab12/narmandakh-checks.txt).
+
+![Нармандахын дараа — backend ба нийт lint 0](../lab12/02-lint-after-backend.png)
+
+### Dependency audit-ийн backend нөлөө (Амарболдод)
+
+Update хийгээгүй, root lockfile-д энэ шатанд хүрээгүй. Энэ шатны scan-д advisory database шинэчлэгдэж root дүн 7 moderate, 7 high болсон: Ирмүүний handoff-оос хойш `prisma`, `@prisma/config`, `effect` High болж нэмэгдсэн. [Audit тэмдэглэл](../lab12/narmandakh-audit-note.txt).
+
+| Package (суусан → засагдсан)                      | Хамаарал                                                         | Backend-д хүрэх эсэх                                                                                                                                  | Санал ба шалгах урсгал                                                                                                                                                                                    |
+| ------------------------------------------------- | ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@nestjs/platform-express` 11.2.7 → 11.2.11       | API-ийн direct                                                   | multer-ийн advisory-аар High                                                                                                                          | Patch/minor update. Auth, posts unit + integration тест.                                                                                                                                                  |
+| `multer` 2.4.0 → 2.5.0 (GHSA-q7qp-rjg7-q26m)      | platform-express-ээр transitive                                  | Backend-д `FileInterceptor`/multer ашиглаагүй тул одоогоор хүрэх зам байхгүй. US-05 зураг upload нэмэгдэхэд шууд нөлөөлнө.                            | platform-express-ийн update-ээр хамт засагдана.                                                                                                                                                           |
+| `body-parser` 2.3.0 → 2.4.0 (GHSA-27r3-jxmh-p828) | express 5 (platform-express, swagger-ui-express)-ээр transitive | Nest `bodyParser: true` бүх JSON хүсэлтийг уншдаг тул шахсан body-оор DoS хийх боломжтой. Production-д нөлөөтэй.                                     | Энэ лабораторид шинэчлэх. Register/login/posts тест.                                                                                                                                                      |
+| `zod` 3.25.76 → 4.6.7 (GHSA-mrhx-c7xc-m3w5)       | contracts-ийн direct                                             | Хэмжээ хязгаартай collection-ийг validation хийхэд санах ой дүүргэх. Contracts-д `z.array` байхгүй, string бүр max-тай, Express JSON 100kb хязгаартай. | Major update. `zod-to-json-schema`, generated docs, frontend consumer, `parse()`-ийн `ZodTypeDef` (v4-д байхгүй тул `z.ZodType<T, unknown>` болгох) шинэчлэх шаардлагатай. Blocker/mitigation-аар тэмдэглэхийг санал болгож байна. |
+| `prisma`, `@prisma/config`, `effect`              | database-ийн Prisma CLI                                          | ReDoS нь CLI config ачаалах үед. API runtime-д ордоггүй.                                                                                              | npm-ийн санал болгосон 6.12.0 нь downgrade тул санал болгохгүй. Prisma-гийн засварласан хувилбарыг хүлээх.                                                                                                |
 
 ## Э.Амарболд — Audit/database/CI — Хийгдсэн
 
