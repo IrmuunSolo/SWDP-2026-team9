@@ -1,0 +1,48 @@
+# Лаб 11 — Г.Нармандах: backend unit тест
+# Огноо: 2026-11-26 23:16 (UTC+8), Node v24.22.3, base main 53756f7
+
+$ npm test -w @campusfind/api
+✔ 1. Зөв нууц үг: session үүсгэж, тоолуурыг тэглэж, нийтийн мэдээлэл буцаана (168.412375ms)
+✔ 2. Буруу нууц үг (1 дэх): 401 INVALID_CREDENTIALS, тоолуур 1-ээр нэмэгдэнэ (74.090541ms)
+✔ 3. Хил: 5 дахь буруу оролдлого 429 LOGIN_LOCKED, 10 минут түгжинэ (68.722045ms)
+✔ 4. Хил: бүртгэлгүй и-мэйл буруу нууц үгтэй ижил 401 өгч, account байгаа эсэхийг задлахгүй (120.428009ms)
+✔ 5. Mock: түгжигдсэн хэрэглэгч зөв нууц үгтэй ч 429; DB-д бичихгүй, session үүсгэхгүй (1.647502ms)
+✔ 6. Хил: түгжээ дууссаны дараах буруу оролдлого тоолуурыг 1-ээс эхлүүлнэ (66.827887ms)
+✔ 7. Mock: и-мэйлийг normalize хийж хайна; баталгаажаагүй бүртгэл 403 (61.328884ms)
+▶ HTTP foundation: routes, CSRF, privacy, auth, explicit planned errors
+  ✔ liveness works without database or authentication (58.78446ms)
+  ✔ register route validates rather than falling into reservation (24.084269ms)
+  ✔ mutation rejects missing CSRF header (3.229704ms)
+  ✔ foreign origin is rejected even with header (2.341487ms)
+  ✔ posts need authentication (2.538488ms)
+  ✔ me never leaks full code, email or hash (3.2211ms)
+  ✔ planned feature returns 501 instead of fake success (4.293281ms)
+  ✔ data-layer search seam becomes HTTP 501 without querying DB (3.33507ms)
+  ✔ data-layer filter seam becomes HTTP 501 without leaking internal errors (3.005597ms)
+  ✔ nonadmin cannot enter admin reservation (3.141829ms)
+  ✔ unknown authenticated route returns uniform 404 (2.418662ms)
+✔ HTTP foundation: routes, CSRF, privacy, auth, explicit planned errors (196.150279ms)
+✔ passwords are salted, verify correctly and never stored in plain text (238.782486ms)
+✔ opaque tokens have 256 bits and database fingerprint differs (4.709025ms)
+✔ only exact university domains are allowed (0.216083ms)
+✔ public projection masks student identity (1.430186ms)
+✔ only actual chat participants may read messages (0.538791ms)
+✔ one person confirming twice does not close handover (1.448971ms)
+✔ two distinct confirmations complete handover (0.263435ms)
+✔ outsider cannot confirm; finder cannot be owner (0.611901ms)
+✔ LOST accepts only its public fields (5.074336ms)
+✔ GUARD requires a building; MEET rejects a guard building (2.517031ms)
+✔ input cannot promote role or set verification (0.907888ms)
+✔ list is bounded and dates are ordered (1.805613ms)
+✔ API ids and method/path pairs are unique (0.383939ms)
+ℹ tests 32
+ℹ suites 0
+ℹ pass 32
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1902.440002
+
+$ npx eslint backend --max-warnings=0
+exit 0
